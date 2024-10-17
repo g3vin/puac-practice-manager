@@ -1,8 +1,10 @@
-# React + Vite
+# A Practice Manager for The Purdue University Archery Club
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Features include:
 
-Currently, two official plugins are available:
+Practice Management & Attendance:
+- Officers can begin and end practices, allowing people to join
+- Members can mark themselves as present
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Practice Purchasing:
+- Keeps track of how many practices a member has paid for or needs to pay for
