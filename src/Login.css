@@ -1,0 +1,83 @@
+body {
+    height: 100vh;
+    justify-content: center;
+    justify-content: flex-start; /* Align to the left */
+    align-items: center;
+    padding-left: 2rex; /* Adds some padding for spacing from the left */
+}
+
+h2 {
+    text-align: center;
+}
+  
+  .login-container {
+    width: 400px;
+    max-width: 100%;
+
+    padding: 20px;
+    border-radius: 12px;
+
+    box-sizing: border-box;
+    margin-left: 0; /* Fixes it to the left */
+  }  
+  
+  .login-container h2 {
+    text-align: center;
+  }
+  
+  .login-container label {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  .login-container input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+  }
+  
+  .login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4587eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .login-container button:hover {
+    background-color: #3d77ce;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+  }  
+
+  .toggle-link {
+    color: blue; /* Change to your preferred color */
+    cursor: pointer; /* Change cursor to pointer */
+    text-decoration: underline; /* Underline text */
+  }
+  
+  .toggle-link:hover {
+    color: darkblue; /* Change color on hover */
+  }
+
+  /* Add media query for smaller screens */
+@media (max-width: 768px) {
+    body {
+        justify-content: center; /* Center the container on smaller screens */
+        padding-left: 0; /* Remove the padding on smaller screens */
+    }
+
+    .login-container {
+        margin-left: auto; /* Reset margin for centering */
+        margin-right: auto;
+    }
+}
