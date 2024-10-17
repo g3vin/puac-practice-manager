@@ -1,16 +1,16 @@
 body {
     height: 100vh;
     justify-content: center;
-    justify-content: flex-start; /* Align to the left */
+    justify-content: flex-start;
     align-items: center;
-    padding-left: 2rex; /* Adds some padding for spacing from the left */
+    padding-left: 2rex;
 }
 
 h2 {
     text-align: center;
 }
   
-  .login-container {
+.login-container {
     width: 400px;
     max-width: 100%;
 
@@ -18,19 +18,19 @@ h2 {
     border-radius: 12px;
 
     box-sizing: border-box;
-    margin-left: 0; /* Fixes it to the left */
-  }  
+    margin-left: 0;
+}  
   
-  .login-container h2 {
+.login-container h2 {
     text-align: center;
-  }
+}
   
-  .login-container label {
+.login-container label {
     display: block;
     margin-bottom: 8px;
-  }
+}
   
-  .login-container input {
+.login-container input {
     width: 100%;
     padding: 12px;
     margin-bottom: 16px;
@@ -38,9 +38,9 @@ h2 {
     border-radius: 8px;
 
     box-sizing: border-box;
-  }
+}
   
-  .login-container button {
+.login-container button {
     width: 100%;
     padding: 12px;
     background-color: #4587eb;
@@ -48,36 +48,35 @@ h2 {
     border: none;
     border-radius: 8px;
     cursor: pointer;
-  }
+}
   
-  .login-container button:hover {
+.login-container button:hover {
     background-color: #3d77ce;
-  }
+}
   
-  .error-message {
+.error-message {
     color: red;
     text-align: center;
-  }  
+}  
 
-  .toggle-link {
-    color: blue; /* Change to your preferred color */
-    cursor: pointer; /* Change cursor to pointer */
-    text-decoration: underline; /* Underline text */
-  }
+.toggle-link {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+}
   
-  .toggle-link:hover {
-    color: darkblue; /* Change color on hover */
-  }
+.toggle-link:hover {
+    color: darkblue;
+}
 
-  /* Add media query for smaller screens */
 @media (max-width: 768px) {
     body {
-        justify-content: center; /* Center the container on smaller screens */
-        padding-left: 0; /* Remove the padding on smaller screens */
+        justify-content: center;
+        padding-left: 0;
     }
 
     .login-container {
-        margin-left: auto; /* Reset margin for centering */
+        margin-left: auto;
         margin-right: auto;
     }
 }

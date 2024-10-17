@@ -8,17 +8,14 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogin = () => {
-    setIsAuthenticated(true); // Update authentication state on login
+    setIsAuthenticated(true);
   };
 
   return (
     <Router>
       <Routes>
-        {/* Redirect root path to login page */}
         <Route path="/" element={<Navigate to="/login" />} />
-        {/* Login route */}
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        {/* Protected home route */}
         <Route
           path="/home"
           element={
@@ -27,7 +24,6 @@ function App() {
             </LockedRoute>
           }
         />
-        {/* Other routes can go here */}
       </Routes>
     </Router>
   );

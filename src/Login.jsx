@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { auth } from './firebase'; // Import Firebase auth
+import { auth } from './firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 function Login({ onLogin }) {
@@ -9,15 +9,15 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
-  const [isResettingPassword, setIsResettingPassword] = useState(false); // New state variable
-  const navigate = useNavigate(); // Get navigate function from useNavigate
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, username, password);
-      onLogin(); // Call the onLogin function to update the authentication state
-      navigate('/home'); // Navigate to home after successful login
+      onLogin();
+      navigate('/home');
     } catch (error) {
       setErrorMessage('Invalid login credentials');
     }
@@ -66,7 +66,6 @@ function Login({ onLogin }) {
               required
             />
           </div>
-          {/* Only show the password label and input when not resetting password */}
           {!isResettingPassword && (
             <div>
               <label>Password</label>
