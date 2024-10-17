@@ -4,7 +4,11 @@ import './Home.css';
 function Home() {
   return (
     <div>
-      <h1>Hi, Gavin</h1>
+      <h1>Home</h1>
+
+      //Current Number of Purchased Practices
+      //Check into practice
+      //Practice Log
     </div>
   );
 }
