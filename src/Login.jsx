@@ -1,25 +1,51 @@
 import React, { useState } from 'react';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import './Login.css';
+import HomeNavbar from './HomeNavbar';
+import { useUser } from './UserContext';
 
-function Login({ onLogin }) {
+function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const { setUserId } = useUser();
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, username, password);
-      onLogin();
-      navigate('/home');
+      const userCredential = await signInWithEmailAndPassword(auth, username, password);
+      const user = userCredential.user;
+
+      // Set user ID in context
+      setUserId(user.uid);
+
+      // Check if the user's email is verified
+      if (!user.emailVerified) {
+        setErrorMessage('Please verify your email before logging in.');
+        return;
+      }
+
+      // Check if it's the user's first time logging in
+      const userDoc = doc(db, "users", user.uid);
+      const docSnap = await getDoc(userDoc);
+
+      if (docSnap.exists()) {
+        if (!docSnap.data().hasLoggedIn) {
+          navigate('/welcome');
+        } else {
+          navigate('/home');
+        }
+      } else {
+        console.error("No such user document!");
+      }
     } catch (error) {
-      setErrorMessage('Invalid login credentials');
+      setErrorMessage('Invalid email or password: ' + error.message);
     }
   };
 
@@ -30,33 +56,56 @@ function Login({ onLogin }) {
         setErrorMessage('Email must end with @purdue.edu');
         return;
       }
+
       const userCredential = await createUserWithEmailAndPassword(auth, username, password);
       await sendEmailVerification(userCredential.user);
-      setErrorMessage('Verification email sent! Please Check your inbox.');
+
+      const userDoc = doc(db, "users", userCredential.user.uid);
+      await setDoc(userDoc, {
+        email: userCredential.user.email,
+        hasLoggedIn: false,
+        role: "Member"
+      });
+
+      setErrorMessage('Verification email sent! Please check your inbox');
       setIsCreatingAccount(false);
     } catch (error) {
-      setErrorMessage('Failed to create an account');
+      console.error("Error creating account: ", error);
+      if (error.code === 'auth/email-already-in-use') {
+        setErrorMessage('This email is already in use.');
+      } else if (error.code === 'auth/weak-password') {
+        setErrorMessage('The password is too weak.');
+      } else {
+        setErrorMessage('Failed to create an account: ' + error.message);
+      }
     }
   };
-  //email, first_name, last_name, purchased_practices, practice_log
 
-  const handleResetPassword = async (e) => {
-    e.preventDefault();
+  const handlePasswordReset = async () => {
+    if (!username) {
+      setErrorMessage('Please enter your email to reset your password.');
+      return;
+    }
     try {
       await sendPasswordResetEmail(auth, username);
-      setErrorMessage('Password reset email sent. Please check your inbox.');
-      setIsResettingPassword(false);
+      setErrorMessage('Password reset email sent! Please check your inbox.');
+      setIsResettingPassword(false); // Reset the state after sending the email
     } catch (error) {
-      setErrorMessage('Failed to send password reset email');
+      setErrorMessage('Error sending password reset email: ' + error.message);
     }
+  };
+
+  const handleToggle = () => {
+    setIsCreatingAccount(false);
+    setIsResettingPassword(false);
   };
 
   return (
     <div>
-      <h2>Purdue University Archery Club</h2>
+      <HomeNavbar />
       <div className="login-container">
         <h1>{isCreatingAccount ? 'Create Account' : isResettingPassword ? 'Reset Password' : 'Sign In'}</h1>
-        <form onSubmit={isCreatingAccount ? handleSignupSubmit : isResettingPassword ? handleResetPassword : handleLoginSubmit}>
+        <form onSubmit={isCreatingAccount ? handleSignupSubmit : isResettingPassword ? handlePasswordReset : handleLoginSubmit}>
           <div>
             <label>Purdue Email</label>
             <input
@@ -73,28 +122,25 @@ function Login({ onLogin }) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
+                required={!isCreatingAccount}
               />
             </div>
           )}
-          <button type="submit">{isCreatingAccount ? 'Create Account' : isResettingPassword ? 'Reset Password' : 'Login'}</button>
+          <button type="submit">{isCreatingAccount ? 'Create Account' : isResettingPassword ? 'Send Reset Email' : 'Login'}</button>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
         </form>
         <p>
-            {isCreatingAccount ? (
-                <>
-                <span className="toggle-link" onClick={() => setIsCreatingAccount(false)}>Already have an account? Login</span>
-                <br />
-                </>
-            ) : isResettingPassword ? (
-                <span className="toggle-link" onClick={() => setIsResettingPassword(false)}>Back to Login</span>
-            ) : (
-                <>
-                <span className="toggle-link" onClick={() => setIsCreatingAccount(true)}>Create an Account</span>
-                <br />
-                <span className="toggle-link" onClick={() => setIsResettingPassword(true)}>Forgot Password?</span>
-                </>
-            )}
+          {isCreatingAccount ? (
+            <span className="toggle-link" onClick={handleToggle}>Already have an account? Login</span>
+          ) : isResettingPassword ? (
+            <span className="toggle-link" onClick={handleToggle}>Back to Login</span>
+          ) : (
+            <>
+              <span className="toggle-link" onClick={() => setIsCreatingAccount(true)}>Create an Account</span>
+              <br />
+              <span className="toggle-link" onClick={() => setIsResettingPassword(true)}>Forgot Password?</span>
+            </>
+          )}
         </p>
       </div>
     </div>

@@ -1,31 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
-import LockedRoute from './LockedRoute'; // Import the ProtectedRoute
-import Home from './Home'; // Import your home component
+import LockedRoute from './LockedRoute'; // Import the LockedRoute for protected routes
+import Home from './Home'; // Import your Home component
+import Welcome from './Welcome'; // Import your Welcome component
+import Info from './Info'; // Import your Info component
+import { UserProvider, useUser } from './UserContext'; // Import UserProvider and useUser
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  return (
+    <UserProvider>
+      <Router>
+        <AppRoutes />
+      </Router>
+    </UserProvider>
+  );
+}
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
+function AppRoutes() {
+  const { userId } = useUser(); // Access userId from context
+  const isAuthenticated = userId !== null; // Determine if the user is authenticated based on userId
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login onLogin={handleLogin} />} />
-        <Route
-          path="/home"
-          element={
-            <LockedRoute isAuthenticated={isAuthenticated}>
-              <Home />
-            </LockedRoute>
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/home"
+        element={
+          <LockedRoute isAuthenticated={isAuthenticated}>
+            <Home />
+          </LockedRoute>
+        }
+      />
+      <Route
+        path="/welcome"
+        element={
+          true || isAuthenticated ? <Welcome /> : <Navigate to="/home" />
+        }
+      />
+      <Route
+        path="/info"
+        element={
+          <LockedRoute isAuthenticated={isAuthenticated}>
+            <Info />
+          </LockedRoute>
+        }
+      />
+    </Routes>
   );
 }
 

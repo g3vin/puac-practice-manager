@@ -3,7 +3,7 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: #213547;
+  color: #2b333a;
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -15,10 +15,40 @@
 body {
   margin: 0;
   display: flex;
+  min-width: 300px;
 }
 
 h1 {
   font-size: 2.8em;
   line-height: 1.1;
   text-align: center;
+}
+
+button {
+  background: linear-gradient(90deg,  #f8b500, #fceabb);
+  color: black;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-sizing: border-box;
 }
