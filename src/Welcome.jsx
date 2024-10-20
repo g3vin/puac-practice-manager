@@ -26,7 +26,9 @@ function Welcome() {
         nameLast,
         bowType,
         personalEquipment,
-        hasLoggedIn: true
+        hasLoggedIn: true,
+        paidPractices: 2,
+        practices,
       }, { merge: true });
   
       // Clear the form fields after submission
@@ -54,6 +56,7 @@ function Welcome() {
       
       {showForm && (
         <form onSubmit={handleFormSubmit}>
+          <h1>My Profile</h1>
           <div>
             <label>Prefered First Name</label>
             <input

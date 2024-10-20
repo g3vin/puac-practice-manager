@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+}
+  
+.tiles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+  
+.tile {
+    width: 330px;
+    height: 150px;
+    background-color: rgb(225, 225, 225);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 700;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+  
+.tile:hover {
+    transform: scale(1.05);
+}
+  
+.blurred {
+    filter: blur(10px);
+}
+  
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+  
+.modal {
+    background-color: rgb(225, 225, 225);
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 600px;
+    width: 80%;
+    min-width: 300px;
+    height: 300px;
+    text-align: center;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease;
+}
+  
+.modal h2 {
+    margin-bottom: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }

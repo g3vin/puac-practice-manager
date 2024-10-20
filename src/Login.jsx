@@ -22,16 +22,13 @@ function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
 
-      // Set user ID in context
       setUserId(user.uid);
 
-      // Check if the user's email is verified
       if (!user.emailVerified) {
         setErrorMessage('Please verify your email before logging in.');
         return;
       }
 
-      // Check if it's the user's first time logging in
       const userDoc = doc(db, "users", user.uid);
       const docSnap = await getDoc(userDoc);
 

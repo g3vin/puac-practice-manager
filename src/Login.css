@@ -1,5 +1,5 @@
 body {
-    display: flex; /* Add this */
+    display: flex;
     flex-direction: column;
     height: 100vh;
     justify-content: center;
@@ -61,4 +61,8 @@ h2 {
 
 .toggle-link:hover {
     color: #ff0000b3;
+}
+
+.login-container form {
+    align-items:normal;
 }
