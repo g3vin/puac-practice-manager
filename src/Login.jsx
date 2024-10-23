@@ -49,7 +49,7 @@ function Login() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!username.endsWith('@purdue.edu')) {
+      if (!username.endsWith('@purdue.edu') && false) {
         setErrorMessage('Email must end with @purdue.edu');
         return;
       }

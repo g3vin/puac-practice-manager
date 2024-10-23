@@ -6,6 +6,7 @@ import Home from './Home'; // Import your Home component
 import Welcome from './Welcome'; // Import your Welcome component
 import Info from './Info'; // Import your Info component
 import { UserProvider, useUser } from './UserContext'; // Import UserProvider and useUser
+import ManageMembers from './ManageMembers';
 
 function App() {
   return (
@@ -44,6 +45,14 @@ function AppRoutes() {
         element={
           <LockedRoute isAuthenticated={isAuthenticated}>
             <Info />
+          </LockedRoute>
+        }
+      />
+      <Route
+        path="/manage-members"
+        element={
+          <LockedRoute isAuthenticated={isAuthenticated}>
+            <ManageMembers />
           </LockedRoute>
         }
       />

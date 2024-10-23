@@ -11,6 +11,7 @@ function Welcome() {
   const [showForm, setShowForm] = useState(false);
   const [nameFirst, setNameFirst] = useState('');
   const [nameLast, setNameLast] = useState('');
+  const [practices, setPractices] = useState('');
   const [bowType, setBowType] = useState(''); // Initialize bowType as an empty string
   const [personalEquipment, setPersonalEquipment] = useState(''); // Initialize personalEquipment as an empty string
   const navigate = useNavigate(); // Initialize useNavigate
@@ -28,7 +29,7 @@ function Welcome() {
         personalEquipment,
         hasLoggedIn: true,
         paidPractices: 2,
-        practices,
+        practices
       }, { merge: true });
   
       // Clear the form fields after submission

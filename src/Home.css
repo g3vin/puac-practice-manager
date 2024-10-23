@@ -76,3 +76,21 @@
     font-size: 20px;
     cursor: pointer;
   }
+
+  .welcome-container {
+    margin-top: 600px;
+    padding-bottom: 50px;
+  }
+
+  .attendance-container {
+    background-color: rgb(225, 225, 225);
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 600px;
+    width: 80%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .center-text {
+    text-align: center;
+  }
