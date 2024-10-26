@@ -1,36 +1,32 @@
-import { getAuth, onAuthStateChanged, setPersistence, browserLocalPersistence } from "firebase/auth";
-import { createContext, useContext, useEffect, useState } from "react";
+// UserContext.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './firebase';
 
-const UserContext = createContext(null);
+const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const auth = getAuth();
-    
-    setPersistence(auth, browserLocalPersistence)
-      .then(() => {
+    useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-          if (user) {
-            setUserId(user.uid);
-          } else {
-            setUserId(null);
-          }
+            if (user) {
+                setUserId(user.uid);
+            } else {
+                setUserId(null);
+            }
+            setLoading(false);
         });
 
         return () => unsubscribe();
-      })
-      .catch((error) => {
-        console.error("Error setting persistence: ", error);
-      });
-  }, []);
+    }, []);
 
-  return (
-    <UserContext.Provider value={{ userId, setUserId }}>
-      {children}
-    </UserContext.Provider>
-  );
+    return (
+        <UserContext.Provider value={{ userId, setUserId, loading }}>
+            {children}
+        </UserContext.Provider>
+    );
 };
 
 export const useUser = () => useContext(UserContext);

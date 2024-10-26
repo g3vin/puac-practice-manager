@@ -6,12 +6,12 @@ import './Home.css';
 import HomeNavbar from './HomeNavbar';
 import PracticeManager from './PracticeManager';
 import CheckIn from './CheckIn';
-import ManageMembers from './ManageMembers';
 import { useNavigate } from 'react-router-dom';
+import ViewPastPractices from './ViewPastPractices';
 
 function Home() {
   const { userId } = useUser();
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
   const [nameFirst, setNameFirst] = useState('');
   const [role, setRole] = useState('');
   const [activeTile, setActiveTile] = useState(null);
@@ -19,7 +19,6 @@ function Home() {
   const [currentPracticeData, setCurrentPracticeData] = useState(null);
   const [membersInAttendance, setMembersInAttendance] = useState([]);
 
-  // Fetch user data
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -41,16 +40,14 @@ function Home() {
     fetchUserData();
   }, [userId]);
 
-  // Fetch active practice data and listen for updates
   useEffect(() => {
     const fetchActivePractice = () => {
       const activePracticeRef = doc(db, 'settings', 'activePractice');
       
-      // Listen for real-time updates
       const unsubscribe = onSnapshot(activePracticeRef, async (activePracticeDoc) => {
         if (activePracticeDoc.exists()) {
           const data = activePracticeDoc.data();
-          console.log("Active practice data: ", data); // Log active practice data
+          console.log("Active practice data: ", data);
 
           if (data.isActive) {
             setIsPracticeStarted(true);
@@ -59,21 +56,20 @@ function Home() {
 
             if (practiceDoc.exists()) {
               const practiceData = practiceDoc.data();
-              console.log("Current practice data: ", practiceData); // Log practice data
+              console.log("Current practice data: ", practiceData);
               setCurrentPracticeData({ id: practiceDoc.id, ...practiceData });
 
-              // Listen for changes in the members field of the practice document
               const unsubscribeMembers = onSnapshot(practiceDocRef, (updatedPracticeDoc) => {
                 const updatedData = updatedPracticeDoc.data();
                 if (updatedData && updatedData.members) {
-                  // Fetch the names of members in attendance
                   const memberPromises = updatedData.members.map(async (memberId) => {
                     const memberDocRef = doc(db, 'users', memberId);
                     const memberDoc = await getDoc(memberDocRef);
+
                     if (memberDoc.exists()) {
-                      // Return member data along with their ID
                       return { id: memberDoc.id, ...memberDoc.data() };
-                    } else {
+                    }
+                    else {
                       return null;
                     }
                   });
@@ -84,16 +80,18 @@ function Home() {
                 }
               });
 
-              // Cleanup listener for members when practice changes
+              setActiveTile(null);
               return () => unsubscribeMembers();
             }
           } else {
             setIsPracticeStarted(false);
+            setActiveTile(null);
             setCurrentPracticeData(null);
             setMembersInAttendance([]);
           }
         } else {
           setIsPracticeStarted(false);
+          setActiveTile(null);
           setCurrentPracticeData(null);
           setMembersInAttendance([]);
         }
@@ -106,11 +104,10 @@ function Home() {
   }, []);
 
   const handleRemoveMember = async (memberId) => {
-    // Ask for confirmation before proceeding
     const isConfirmed = window.confirm("Are you sure you want to remove this member from practice?");
     
     if (!isConfirmed) {
-      return; // Exit if the user cancels
+      return;
     }
 
     try {
@@ -134,7 +131,11 @@ function Home() {
 
   const handleTileClick = (tileIndex) => {
     if (tileIndex === 2) {
-      navigate('/manage-members'); // Navigate to Manage Members on tile click
+      if (role === 'Officer') {
+        navigate('/manage-members');
+      } else {
+        setActiveTile(tileIndex);
+      }
     } else {
       setActiveTile(tileIndex);
     }
@@ -157,7 +158,7 @@ function Home() {
       },
       {
         title: 'Manage Members',
-        content: <p>Click to manage members.</p>, // Placeholder content
+        content: <p>Click to manage members.</p>,
       },
     ] : []),
     {
@@ -167,7 +168,7 @@ function Home() {
     {
       title: 'Purchase Practices',
       content: <>
-        <p>Your first two practices are always free! All practices after are $3 each and can be purchased on our TooCool page.</p>
+        <p class="purchase-msg">Your first two practices are always free! All practices after are $3 each and can be purchased on our TooCool page.</p>
         <a href="https://www.toocoolpurdue.com/TooCOOLPurdueWL/vECItemCatalogOrganizationItems/OrganizationItemsGallery.aspx?Organization=p0RCbTmGOlE%3D" target="_blank" rel="noopener noreferrer">
           <button>Purchase Practices →</button>
         </a>
@@ -175,80 +176,112 @@ function Home() {
     },
     {
       title: 'Your Past Practices',
-      content: <p>See all your past practice sessions.</p>,
+      content: <ViewPastPractices />,
     }
   ];
 
   return (
     <>
       <HomeNavbar />
-      <div className="welcome-container">
-        <h1>Hi, {nameFirst}</h1>
-      </div>
+      <div className="flex-container">
+        <div className="welcome-container">
+          <h1>Hi, {nameFirst}</h1>
+        </div>
 
-      {isPracticeStarted && currentPracticeData && (
-        <div className="attendance-container">
-          <h2>{currentPracticeData.name}</h2>
-          <h2>{membersInAttendance.length} Members in Attendance</h2>
-          
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                {role === 'Officer' && <th>Email</th>}
-                {role === 'Officer' && <th>Remaining Paid Practices</th>}
-                {role === 'Officer' && <th></th>}
-              </tr>
-            </thead>
-            <tbody>
-              {membersInAttendance.map((member, index) => {
+        {isPracticeStarted && currentPracticeData && (
+          <div className="attendance-container">
+            <h2>{currentPracticeData.name}</h2>
+            <h4>{membersInAttendance.length} Members in Attendance</h4>
+            
+            <table className="attendance-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  {role === 'Officer' && <th>Email</th>}
+                  {role === 'Officer' && <th>Remaining Paid Practices</th>}
+                  {role === 'Officer' && <th></th>}
+                </tr>
+              </thead>
+              <tbody>
+                {membersInAttendance.map((member) => {
+                  const remainingPaidPractices = member.paidPractices - member.practices.length;
+
+                  return (
+                    <tr key={member.id}>
+                      <td className="center-text">{member.nameFirst} {member.nameLast}</td>
+                      {role === 'Officer' && <td className="center-text">{member.email}</td>}
+                      {role === 'Officer' && (
+                        <td className="center-text" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
+                          {remainingPaidPractices}
+                        </td>
+                      )}
+                      {role === 'Officer' && (
+                        <td className="center-text">
+                          <button onClick={() => handleRemoveMember(member.id)}>Remove</button>
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+
+            <div className="responsive-attendance">
+              {membersInAttendance.map((member) => {
                 const remainingPaidPractices = member.paidPractices - member.practices.length;
-
                 return (
-                  <tr key={member.id}>
-                    <td className="center-text">{member.nameFirst} {member.nameLast}</td>
-                    {role === 'Officer' && <td className="center-text">{member.email}</td>}
+                  <div className="responsive-member" key={member.id}>
+                    <div className="responsive-member-info">
+                      <div>
+                          <span className="responsive-name">
+                              {member.nameFirst} {member.nameLast}
+                          </span>
+                          {role === 'Officer' && (
+                              <span className="responsive-email">
+                                  {member.email}
+                              </span>
+                          )}
+                      </div>
+                    </div>
                     {role === 'Officer' && (
-                      <td className="center-text" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
-                        {remainingPaidPractices}
-                      </td>
+                      <div className="responsive-practice-info">
+                        <span className="responsive-paid-practices" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
+                          {remainingPaidPractices}
+                        </span>
+                        <button className="responsive-remove-button" onClick={() => handleRemoveMember(member.id)}>Remove</button>
+                      </div>
                     )}
-                    {role === 'Officer' && (
-                      <td className="center-text">
-                        <button onClick={() => handleRemoveMember(member.id)}>Remove</button>
-                      </td>
-                    )}
-                  </tr>
+                  </div>
                 );
               })}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      <div className={`container ${activeTile !== null ? 'blurred' : ''}`}>
-        <div className="tiles">
-          {tiles.map((tile, index) => (
-            <div
-              key={index}
-              className="tile"
-              onClick={() => handleTileClick(index)}
-            >
-              {tile.title}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        )}
 
-      {activeTile !== null && (
-        <div className="overlay">
-          <div className="modal">
-            <button className="close-button" onClick={handleCloseModal}>X</button>
-            <h2>{tiles[activeTile].title}</h2>
-            {tiles[activeTile].content}
+        <div className={`container ${activeTile !== null ? 'blurred' : ''}`}>
+          <div className="tiles">
+            {tiles.map((tile, index) => (
+              <div
+                key={index}
+                className="tile"
+                onClick={() => handleTileClick(index)}
+              >
+                {tile.title}
+              </div>
+            ))}
           </div>
         </div>
-      )}
+
+        {activeTile !== null && (
+          <div className="overlay" onClick={handleCloseModal}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+
+              <h2>{tiles[activeTile].title}</h2>
+              {tiles[activeTile].content}
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import './Login.css';
 import HomeNavbar from './HomeNavbar';
-import { useUser } from './UserContext';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -13,7 +12,6 @@ function Login() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isCreatingAccount, setIsCreatingAccount] = useState(false);
   const [isResettingPassword, setIsResettingPassword] = useState(false);
-  const { setUserId } = useUser();
   const navigate = useNavigate();
 
   const handleLoginSubmit = async (e) => {
@@ -21,8 +19,6 @@ function Login() {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, username, password);
       const user = userCredential.user;
-
-      setUserId(user.uid);
 
       if (!user.emailVerified) {
         setErrorMessage('Please verify your email before logging in.');

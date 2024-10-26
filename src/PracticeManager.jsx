@@ -169,6 +169,7 @@ function PracticeManager() {
     <div>
       {!isPracticeStarted ? (
         <>
+        <h4>Name & Description</h4>
           <input
             type="text"
             value={practiceName}
@@ -180,6 +181,7 @@ function PracticeManager() {
             onChange={(e) => setPracticeDescription(e.target.value)}
             placeholder="Practice Description"
           />
+          <h4>Attendance Limit</h4>
           <input
             type="text"
             value={attendanceLimit}
@@ -196,8 +198,10 @@ function PracticeManager() {
               <p>{currentPracticeData.description}</p>
               <p>
                 Start Time: {currentPracticeData.startDateTime
-                    ? currentPracticeData.startDateTime.toDate().toLocaleString() 
-                    : 'Start time not available yet'}
+                  ? (currentPracticeData.startDateTime.toDate 
+                      ? currentPracticeData.startDateTime.toDate().toLocaleString() 
+                      : new Date(currentPracticeData.startDateTime).toLocaleString())
+                  : 'Start time not available yet'}
               </p>
               <p>Attendance Limit: {currentPracticeData.attendanceLimit || 'Unlimited'}</p>
               <p>Practice Uptime: {uptime}</p>

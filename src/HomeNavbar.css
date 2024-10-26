@@ -64,13 +64,33 @@
     font-weight: bold;
 }
 
+.logout-button {
+    position: absolute;
+    left: 5px;
+    top: 52%;
+    transform: translateY(-50%);
+    border: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+    z-index: 11;
+    box-shadow: none;
+}
+
+.logout-button img {
+    width: 40px;
+    height: 40px;
+    filter: invert(20%) saturate(50%) hue-rotate(240deg);
+}
+
 @media (max-width: 700px) {
     .divider-left {
         margin-left: -10px;
+        margin-right: 10px;
     }
 
     .divider-right {
         margin-right: -10px;
+        margin-left: 10px;
     }
 }
 

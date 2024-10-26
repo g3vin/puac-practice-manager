@@ -1,9 +1,16 @@
-.container {
+.flex-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
     height: 100vh;
-    padding: 20px;
+  }
+  
+
+.container {
+    margin-top:50px;
+    display: flex;
+    align-items: center;
 }
   
 .tiles {
@@ -11,6 +18,8 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 25px;
+    margin-bottom: 50px;
+    max-width: 1200px;
 }
   
 .tile {
@@ -56,7 +65,8 @@
     max-width: 600px;
     width: 80%;
     min-width: 300px;
-    height: 300px;
+    max-height: 500px;
+    height: 60%;
     text-align: center;
     z-index: 20;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
@@ -67,30 +77,93 @@
     margin-bottom: 10px;
 }
 
+.modal p {
+    max-width: 100%;
+}
+
+.modal h4 {
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.attendance-container h4 {
+    width: 100%;
+    text-align: center;
+}
+
 .close-button {
-    position: absolute;
-    top: 10px;
-    right: 15px;
+    margin-left: auto;
     background: none;
     border: none;
     font-size: 20px;
     cursor: pointer;
-  }
+}
 
-  .welcome-container {
-    margin-top: 600px;
+.welcome-container {
+    margin-top: 200px;
     padding-bottom: 50px;
-  }
+}
 
-  .attendance-container {
+.attendance-container {
     background-color: rgb(225, 225, 225);
     border-radius: 15px;
     padding: 20px;
     max-width: 600px;
     width: 80%;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
+}
 
-  .center-text {
+.center-text {
     text-align: center;
-  }
+}
+  
+.attendance-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+  
+.attendance-table th, .attendance-table td {
+    padding: 8px;
+    text-align: center;
+}
+
+.responsive-attendance {
+    display: none;
+    flex-direction: column;
+}
+  
+.responsive-member {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+  
+.responsive-member-info {
+    flex-grow: 1;
+}
+  
+.responsive-practice-info {
+    display: flex;
+    align-items: center;
+}
+  
+.responsive-paid-practices {
+    margin-right: 10px;
+}
+
+.responsive-name,
+.responsive-email {
+    display: block;
+}
+  
+@media (max-width: 768px) {
+    .attendance-table {
+      display: none;
+    }
+    
+    .responsive-attendance {
+      display: flex;
+    }
+}
+  

@@ -19,44 +19,42 @@ function App() {
 }
 
 function AppRoutes() {
-  const { userId } = useUser(); // Access userId from context
-  const isAuthenticated = userId !== null; // Determine if the user is authenticated based on userId
+  const { userId, loading } = useUser();
+  const isAuthenticated = userId !== null;
 
   return (
-    <Routes>
-      <Route path="/" element={<Navigate to="/login" />} />
-      <Route path="/login" element={<Login />} />
-      <Route
-        path="/home"
-        element={
-          <LockedRoute isAuthenticated={isAuthenticated}>
-            <Home />
-          </LockedRoute>
-        }
-      />
-      <Route
-        path="/welcome"
-        element={
-          true || isAuthenticated ? <Welcome /> : <Navigate to="/home" />
-        }
-      />
-      <Route
-        path="/info"
-        element={
-          <LockedRoute isAuthenticated={isAuthenticated}>
-            <Info />
-          </LockedRoute>
-        }
-      />
-      <Route
-        path="/manage-members"
-        element={
-          <LockedRoute isAuthenticated={isAuthenticated}>
-            <ManageMembers />
-          </LockedRoute>
-        }
-      />
-    </Routes>
+      <Routes>
+          <Route path="/" element={<Navigate to="/login" />} />
+          <Route path="/login" element={<Login />} />
+          <Route
+              path="/home"
+              element={
+                  <LockedRoute>
+                      <Home />
+                  </LockedRoute>
+              }
+          />
+          <Route
+              path="/welcome"
+              element={isAuthenticated ? <Welcome /> : <Navigate to="/login" />}
+          />
+          <Route
+              path="/info"
+              element={
+                  <LockedRoute>
+                      <Info />
+                  </LockedRoute>
+              }
+          />
+          <Route
+              path="/manage-members"
+              element={
+                  <LockedRoute>
+                      <ManageMembers />
+                  </LockedRoute>
+              }
+          />
+      </Routes>
   );
 }
 

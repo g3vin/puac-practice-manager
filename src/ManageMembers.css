@@ -1,0 +1,114 @@
+
+.table-container input {
+    margin-top: 18px;
+}
+
+.table-container select {
+    margin-top: 18px;
+    width: 100px;
+}
+
+.table-container {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.container h1 {
+    margin-bottom: 50px;
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 50px;
+}
+
+.table-container button {
+    margin: 5px;
+}
+  
+.table-container th, .table-container td {
+    max-width: 100%;
+    text-align: center;
+    padding: 10px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+.modal2 {
+    background-color: rgb(225, 225, 225);
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 300px;
+    width: 80%;
+    min-width: 300px;
+    max-height: 320px;
+    height: 60%;
+    text-align: center;
+    z-index: 20;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: width 0.3s ease;
+}
+
+.modal2 select {
+    width: 100px;
+    margin-bottom: 0px;
+}
+
+.modal2 input {
+    margin-bottom: 0px;
+}
+
+.modal2 p {
+    max-width: 100%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.modal-content {
+    text-align: center;
+  }
+  
+.modal-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px;
+}
+  
+.blurred {
+    filter: blur(10px);
+}
+  
+.modal2 h2 {
+    margin-top: 20px;
+    font-size: clamp(12px, 5vw, 24px);
+}
+  
+.modal-content button {
+    margin: 10px 5px;
+}
+
+.responsive-hide {
+    display: table-cell;
+  }
+  
+
+@media (max-width: 768px) {
+    .responsive-hide {
+      display: none;
+    }
+}
+  
