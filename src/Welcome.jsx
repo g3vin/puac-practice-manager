@@ -3,7 +3,7 @@ import { db } from './firebase';
 import { doc, setDoc, getDoc, updateDoc, collection, getDocs, arrayUnion } from 'firebase/firestore';
 import { useUser } from './UserContext';
 import { useNavigate } from 'react-router-dom';
-import 'src/Welcome.css';
+import './Welcome.css';
 import HomeNavbar from './HomeNavbar';
 
 function Welcome() {
