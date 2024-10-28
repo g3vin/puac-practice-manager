@@ -12,11 +12,11 @@ const RandomWelcomeMessage = () => {
         "Everyone says good things come in threes... That's why our practices are three dollars.",
         "Don't hit your arm pookie that hurts! Unless u freaky like that??",
         "PLEASE PLEASE PLEASE BE IN THE TEN RING",
-        "If you miss, try try again. Or quit! Up to you honestly it's your life.",
+        "If you miss, try try again. Or quit! It's up to you I don't really care.",
         "The Lancaster Classic, one of the largerst indoor archery tournaments, hosts over 3,000 archers every year in Lancaster PA.",
         "A perfect indoor round is 300 points, and for outdoor it's 360!",
         "If your favorite constellation isn't Orion are you really an archer?",
-        "Shoot for the sky! WAIT PLEASE DON'T DO THAT OH YOU ALREADY DID EVERYONE RUNNNNN",
+        "Shoot for the sky! WAIT NOT LITERALLY OH YOU ALREADY LET GO OF THE STRING EVERYONE RUNNNNN",
         "If you find more than 50 arrows in the woods, you win a prize.",
         "Barebow does NOT mean you shoot naked... we can NOT have second incident okay",
         "Wait stand right over there and put this apple on your head. Okay now stay perrrrrrfectly still",
@@ -24,7 +24,7 @@ const RandomWelcomeMessage = () => {
         "One time I ate 100 cold dinsour nuggets in one sitting. I didn't even use ketchup. Wait, what is this for again?",
         "If you ever shoot someone with an arrow, don't panic, we have band-aids!",
         "y = (tan θ)x - gx^2/2(vcosθ)^2 Put that physics you learned into practice!",
-        "If you hear more than 4 whistles, STOP SHOOTING!",
+        "If you hear more than 3 whistles, STOP SHOOTING!",
         "Follow the arrow!"
     ];
 
