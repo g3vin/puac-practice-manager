@@ -215,7 +215,7 @@ function Home() {
       title: 'Purchase Practices',
       content: <>
         <p className="purchase-msg">Your first two practices are always free! All practices after are $3 each and can be purchased on our TooCool page.</p>
-        <a href="https://www.toocoolpurdue.com/TooCOOLPurdueWL/vECItemCatalogOrganizationItems/OrganizationItemsGallery.aspx?Organization=p0RCbTmGOlE%3D" target="_blank" rel="noopener noreferrer">
+        <a href="https://www.coolfaces.net/TooCOOLPUWL/vECLiveStudentOrganization/ShowLiveStudentOrganization.aspx" target="_blank" rel="noopener noreferrer">
           <button>Purchase Practices →</button>
         </a>
       </>,
