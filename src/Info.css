@@ -12,15 +12,18 @@
     margin-top: 200px;
 }
 
-.info-container ul, li {
+.info-container ul, ol, li {
     align-content: center;
     max-width: 600px;
-}
-
-.info-container button {
-    margin-bottom: 50px;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .info-container p {
     text-align: center;
+}
+
+.range-calls-container {
+    margin-left: 20px;
+    margin-right: 20px;
 }
