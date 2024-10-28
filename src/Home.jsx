@@ -310,9 +310,9 @@ function Home() {
                     </div>
                     {role === 'Officer' && (
                       <div className="responsive-practice-info">
-                        <span className="responsive-paid-practices" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
-                          {remainingPaidPractices}
-                        </span>
+                         <span className="responsive-paid-practices" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
+                            {remainingPaidPractices}
+                            </span>
                         <button className="responsive-remove-button" onClick={() => handleRemoveMember(member.id)}>X</button>
                       </div>
                     )}

@@ -136,16 +136,19 @@
   
 .responsive-member {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     padding: 10px;
 }
 
 .responsive-member input {
     margin-bottom: 0px;
+    width: 40px;
 }
 
 .responsive-member-info {
     flex-grow: 1;
+    margin-right: 20px;
+    margin-left: 20px;
 }
   
 .responsive-practice-info {
