@@ -3,7 +3,7 @@ import { auth, db } from './firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail } from "firebase/auth";
 import { useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import './Login.css';
+import 'src/Login.css';
 import HomeNavbar from './HomeNavbar';
 
 function Login() {

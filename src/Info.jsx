@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import HomeNavbar from './HomeNavbar';
-import './info.css'
+import 'src/info.css'
 
 function Info() {
 const navigate = useNavigate();

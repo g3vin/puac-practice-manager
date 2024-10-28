@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase';
 import { doc, getDoc, deleteDoc } from 'firebase/firestore';
-import './ViewPracticeDetails.css'
+import 'src/ViewPracticeDetails.css'
 
 const ViewPracticeDetails = ({ practice, goBack }) => {
   const [attendees, setAttendees] = useState([]);

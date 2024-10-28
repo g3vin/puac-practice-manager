@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { doc, getDoc, onSnapshot, updateDoc, arrayRemove } from 'firebase/firestore';
 import { db } from './firebase';
 import { useUser } from './UserContext';
-import './Home.css';
+import 'src/Home.css';
 import HomeNavbar from './HomeNavbar';
 import PracticeManager from './PracticeManager';
 import CheckIn from './CheckIn';

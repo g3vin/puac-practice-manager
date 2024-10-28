@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUser } from './UserContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
-import './HomeNavbar.css';
+import 'src/HomeNavbar.css';
 import { useNavigate } from 'react-router-dom';
 import logoutIcon from './assets/logoutIcon.png';
 import homeIcon from './assets/homeicon.png';
