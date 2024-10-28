@@ -35,7 +35,7 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    border-left: 90px solid #2b333a;
+    border-left: 50px solid #2b333a;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
 }
@@ -54,9 +54,9 @@
     right: -12px;
     top: 50%;
     transform: translateY(-50%);
-    border-left: 40px solid #2b333a;
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent;
+    border-left: 30px solid #2b333a;
+    border-top: 7px solid transparent;
+    border-bottom: 7px solid transparent;
 }
 
 .home_navbar h2 {
@@ -102,14 +102,4 @@
     width: 40px;
     height: 40px;
     filter: invert(20%) saturate(50%) hue-rotate(240deg);
-}
-
-@media (max-width: 380px) {
-    .divider-left {
-        visibility: hidden;
-    }
-
-    .divider-right {
-        visibility: hidden;
-    }
 }

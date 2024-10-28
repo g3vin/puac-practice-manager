@@ -66,9 +66,7 @@ function ManageMembers() {
   
           if (practiceData.members && practiceData.members.includes(memberId)) {
             const practiceRef = doc(db, 'practices', practiceDoc.id);
-            batch.update(practiceRef, {
-              members: arrayRemove(memberId)
-            });
+            batch.update(practiceRef, {members: arrayRemove(memberId)});
           }
         });
   

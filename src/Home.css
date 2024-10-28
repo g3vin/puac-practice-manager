@@ -3,28 +3,33 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
 }
 
 .container {
-    margin-top:50px;
+    margin-top: 50px; /* Spacing above the container */
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    width: 100%; /* Full width */
+    flex-grow: 1; /* Allow to take available space */
 }
-  
+
 .tiles {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
-    gap: 25px;
-    margin-bottom: 50px;
-    max-width: 1200px;
+    flex-wrap: wrap; /* Allow wrapping of tiles */
+    justify-content: center; /* Center tiles */
+    align-content: flex-start; /* Start alignment for flex items */
+    gap: 25px; /* Space between tiles */
+    max-width: 1200px; /* Maximum width for the tiles area */
+    padding: 20px; /* Padding around the tiles */
+    flex-grow: 1; /* Grow to fill available space */
+    min-height: 200px; /* Minimum height to prevent overlapping */
 }
-  
+/* Tile styles */
 .tile {
-    width: 330px;
-    height: 150px;
+    width: 330px; /* Fixed width */
+    height: 150px; /* Fixed height */
     background-color: rgb(225, 225, 225);
     border-radius: 15px;
     display: flex;
@@ -35,12 +40,12 @@
     cursor: pointer;
     transition: transform 0.3s ease;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    flex-shrink: 0; /* Prevent shrinking */
 }
-  
+
 .tile:hover {
     transform: scale(1.05);
 }
-  
 .blurred {
     filter: blur(10px);
 }
@@ -62,15 +67,15 @@
     background-color: rgb(225, 225, 225);
     border-radius: 15px;
     padding: 20px;
-    max-width: 600px; /* Keep the width fixed */
-    width: 80%; /* Adjust the width based on your requirement */
+    max-width: 600px;
+    width: 80%;
     min-width: 300px;
-    max-height: 90vh; /* Prevents the modal from getting too tall */
-    overflow-y: auto; /* Adds a scrollbar if the content exceeds the max height */
+    max-height: 90vh;
+    overflow-y: auto;
     text-align: center;
     z-index: 20;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: height 0.3s ease; /* Smooth transition for height changes */
+    transition: height 0.3s ease;
 }
   
 .modal h2 {
@@ -94,7 +99,7 @@
 
 .welcome-container {
     margin-top: 200px;
-    padding-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 .welcome-container h1 {
@@ -134,7 +139,11 @@
     justify-content: space-between;
     padding: 10px;
 }
-  
+
+.responsive-member input {
+    margin-bottom: 0px;
+}
+
 .responsive-member-info {
     flex-grow: 1;
 }

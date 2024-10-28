@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { doc, getDoc, onSnapshot, updateDoc, arrayRemove } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, updateDoc, arrayRemove, arrayUnion, increment} from 'firebase/firestore';
 import { db } from './firebase';
 import { useUser } from './UserContext';
 import './Home.css';
@@ -19,6 +19,7 @@ function Home() {
   const [isPracticeStarted, setIsPracticeStarted] = useState(false);
   const [currentPracticeData, setCurrentPracticeData] = useState(null);
   const [membersInAttendance, setMembersInAttendance] = useState([]);
+  const [carpoolMembers, setCarpoolMembers] = useState(new Set());
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -130,6 +131,45 @@ function Home() {
     }
   };
 
+  const handleCarpoolToggle = async (memberId) => {
+    try {
+      const practiceRef = doc(db, 'practices', currentPracticeData.id);
+      const userRef = doc(db, 'users', memberId);
+
+      const isInCarpool = carpoolMembers.has(memberId);
+  
+      if (isInCarpool) {
+        await updateDoc(userRef, {
+          paidPractices: increment(-1),
+        });
+  
+        await updateDoc(practiceRef, {
+          carpool: arrayRemove(memberId),
+        });
+  
+        // Update the state
+        setCarpoolMembers((prev) => {
+          const updated = new Set(prev);
+          updated.delete(memberId);
+          return updated;
+        });
+      } else {
+        await updateDoc(userRef, {
+          paidPractices: increment(1),
+        });
+  
+        await updateDoc(practiceRef, {
+          carpool: arrayUnion(memberId),
+        });
+
+        setCarpoolMembers((prev) => new Set(prev).add(memberId));
+      }
+    } catch (error) {
+      console.error("Error updating carpool status: ", error);
+    }
+  };  
+ 
+
   const handleTileClick = (tileIndex) => {
     if (tileIndex === 1) {
       if (role === 'Officer') {
@@ -203,6 +243,7 @@ function Home() {
             <table className="attendance-table">
               <thead>
                 <tr>
+                  {role === 'Officer' && <th>Carpooled</th>}
                   <th>Name</th>
                   {role === 'Officer' && <th>Email</th>}
                   {role === 'Officer' && <th>Remaining Paid Practices</th>}
@@ -212,9 +253,19 @@ function Home() {
               <tbody>
                 {membersInAttendance.map((member) => {
                   const remainingPaidPractices = member.paidPractices - member.practices.length;
+                  const isCarpool = carpoolMembers.has(member.id);
 
                   return (
                     <tr key={member.id}>
+                      {role === 'Officer' && (
+                        <td className="center-text">
+                          <input
+                            type="checkbox"
+                            checked={isCarpool}
+                            onChange={() => handleCarpoolToggle(member.id)}
+                          />
+                        </td>
+                      )}
                       <td className="center-text">{member.nameFirst} {member.nameLast}</td>
                       {role === 'Officer' && <td className="center-text">{member.email}</td>}
                       {role === 'Officer' && (
@@ -224,7 +275,7 @@ function Home() {
                       )}
                       {role === 'Officer' && (
                         <td className="center-text">
-                          <button onClick={() => handleRemoveMember(member.id)}>Remove</button>
+                          <button onClick={() => handleRemoveMember(member.id)}>X</button>
                         </td>
                       )}
                     </tr>
@@ -236,8 +287,15 @@ function Home() {
             <div className="responsive-attendance">
               {membersInAttendance.map((member) => {
                 const remainingPaidPractices = member.paidPractices - member.practices.length;
+                const isCarpool = carpoolMembers.has(member.id);
                 return (
                   <div className="responsive-member" key={member.id}>
+                    {role === 'Officer' && (
+                    <input
+                      type="checkbox"
+                      checked={isCarpool}
+                      onChange={() => handleCarpoolToggle(member.id)}
+                    />)}
                     <div className="responsive-member-info">
                       <div>
                           <span className="responsive-name">
@@ -255,7 +313,7 @@ function Home() {
                         <span className="responsive-paid-practices" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
                           {remainingPaidPractices}
                         </span>
-                        <button className="responsive-remove-button" onClick={() => handleRemoveMember(member.id)}>Remove</button>
+                        <button className="responsive-remove-button" onClick={() => handleRemoveMember(member.id)}>X</button>
                       </div>
                     )}
                   </div>

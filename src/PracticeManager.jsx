@@ -12,7 +12,6 @@ function PracticeManager() {
   const [currentPracticeData, setCurrentPracticeData] = useState(null);
   const [uptime, setUptime] = useState('');
   const [makeFree, setMakeFree] = useState(false);
-  const [carpoolHelp, setCarpoolHelp] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -85,24 +84,20 @@ function PracticeManager() {
         description: practiceDescription,
         startDateTime: new Date(),
         attendanceLimit: attendanceLimit === 'none' ? null : attendanceLimit,
-        members: [userId],
-        carpool: carpoolHelp ? [userId] : []
+        members: [userId]
       };
   
-      // Create a new practice document
       const practicesRef = collection(db, 'practices');
       const practiceDocRef = await addDoc(practicesRef, practiceData);
   
-      // Update the activePractice document in settings
       await updateDoc(activePracticeRef, {
         isActive: true,
         practiceId: practiceDocRef.id,
       });
   
-      // Update the user's document to include the new practice ID
       const userRef = doc(db, 'users', userId);
       await updateDoc(userRef, {
-        practices: arrayUnion(practiceDocRef.id) // Add the new practice ID to the user's list of practices
+        practices: arrayUnion(practiceDocRef.id)
       });
   
       setCurrentPracticeData(practiceData);
@@ -185,14 +180,6 @@ function PracticeManager() {
             onChange={(e) => setAttendanceLimit(e.target.value)}
             placeholder="Attendance Limit (or 'none')"
           />
-          <label>
-            <input
-              type="checkbox"
-              checked={carpoolHelp}
-              onChange={(e) => setCarpoolHelp(e.target.checked)}
-            />
-            Helped drive for carpool
-          </label>
           <button onClick={startPractice}>Start Practice</button>
         </>
       ) : (
