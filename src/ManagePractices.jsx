@@ -3,7 +3,7 @@ import { db } from './firebase';
 import { collection, getDocs, doc, getDoc, deleteDoc, writeBatch} from 'firebase/firestore';
 import HomeNavbar from './HomeNavbar';
 import ViewPracticeDetails from './ViewPracticeDetails';
-import "src/ManageMembers.css";
+import "./ManageMembers.css";
 
 function ManagePractices() {
   const [practices, setPractices] = useState([]);

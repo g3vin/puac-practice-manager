@@ -5,7 +5,7 @@ import { collection, getDocs, doc, deleteDoc, updateDoc, arrayRemove, writeBatch
 import { useUser } from './UserContext';
 import HomeNavbar from './HomeNavbar';
 import ViewUsersPastPractices from './ViewUsersPastPractices';
-import "src/ManageMembers.css";
+import "./ManageMembers.css";
 
 function ManageMembers() {
   const { userId } = useUser();

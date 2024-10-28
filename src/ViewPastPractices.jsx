@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import { useUser } from './UserContext';
-import 'src/ViewPastPractices.css'
+import './ViewPastPractices.css'
 
 const ViewPastPractices = () => {
     const { userId } = useUser();
