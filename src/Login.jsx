@@ -38,41 +38,41 @@ function Login() {
         console.error("No such user document!");
       }
     } catch (error) {
-      setErrorMessage('Invalid email or password: ' + error.message);
+      setErrorMessage('Invalid email or password: ');
     }
   };
 
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!username.endsWith('@purdue.edu')) {
-        setErrorMessage('Email must end with @purdue.edu');
-        return;
-      }
+        if (!username.endsWith('@purdue.edu')) {
+            setErrorMessage('Email must end with @purdue.edu');
+            return;
+        }
 
-      const userCredential = await createUserWithEmailAndPassword(auth, username, password);
-      await sendEmailVerification(userCredential.user);
+        const userCredential = await createUserWithEmailAndPassword(auth, username, password);
+        await sendEmailVerification(userCredential.user);
 
-      const userDoc = doc(db, "users", userCredential.user.uid);
-      await setDoc(userDoc, {
-        email: userCredential.user.email,
-        hasLoggedIn: false,
-        role: "Member"
-      });
+        const userDoc = doc(db, "users", userCredential.user.uid);
+        await setDoc(userDoc, {
+            email: userCredential.user.email,
+            hasLoggedIn: false,
+            role: "Member"
+        });
 
-      setErrorMessage('Verification email sent! Please check your inbox');
-      setIsCreatingAccount(false);
+        setErrorMessage('Verification email sent! Please check your inbox');
+        setIsCreatingAccount(false);
     } catch (error) {
-      console.error("Error creating account: ", error);
-      if (error.code === 'auth/email-already-in-use') {
-        setErrorMessage('This email is already in use.');
-      } else if (error.code === 'auth/weak-password') {
-        setErrorMessage('The password is too weak.');
-      } else {
-        setErrorMessage('Failed to create an account: ' + error.message);
-      }
+        console.error("Error creating account: ");
+        if (error.code === 'auth/email-already-in-use') {
+            setErrorMessage('This email is already in use.');
+        } else if (error.code === 'auth/weak-password') {
+            setErrorMessage('The password is too weak.');
+        } else {
+            setErrorMessage('Failed to create an account: ');
+        }
     }
-  };
+};
 
   const handlePasswordReset = async () => {
     if (!username) {
@@ -84,7 +84,7 @@ function Login() {
       setErrorMessage('Password reset email sent! Please check your inbox.');
       setIsResettingPassword(false);
     } catch (error) {
-      setErrorMessage('Error sending password reset email: ' + error.message);
+      setErrorMessage('Error sending password reset email: ');
     }
   };
 

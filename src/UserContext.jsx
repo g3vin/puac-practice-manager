@@ -12,8 +12,13 @@ export const UserProvider = ({ children }) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                setUserId(user.uid);
-                setEmail(user.email);
+                if (user.emailVerified) {
+                    setUserId(user.uid);
+                    setEmail(user.email);
+                } else {
+                    setUserId(null);
+                    setEmail(null);
+                }
             } else {
                 setUserId(null);
                 setEmail(null);
