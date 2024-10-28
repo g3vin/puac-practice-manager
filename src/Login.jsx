@@ -38,7 +38,7 @@ function Login() {
         console.error("No such user document!");
       }
     } catch (error) {
-      setErrorMessage('Invalid email or password: ');
+      setErrorMessage('Invalid email or password.');
     }
   };
 

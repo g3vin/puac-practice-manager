@@ -13,6 +13,7 @@ function Welcome() {
   const [nameLast, setNameLast] = useState('');
   const [bowType, setBowType] = useState('');
   const [personalEquipment, setPersonalEquipment] = useState('');
+  const { setHasLoggedIn } = useUser();
   const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
@@ -44,6 +45,8 @@ function Welcome() {
           updateDoc(practice.ref, { carpool: arrayUnion(userId) });
         }
       });
+
+      setHasLoggedIn(true);
 
       await setDoc(userDoc, {
         nameFirst,

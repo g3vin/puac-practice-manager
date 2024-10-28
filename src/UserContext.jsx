@@ -1,27 +1,31 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from './firebase';
+import { auth, db } from './firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
     const [userId, setUserId] = useState(null);
     const [email, setEmail] = useState(null);
+    const [hasLoggedIn, setHasLoggedIn] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                if (user.emailVerified) {
-                    setUserId(user.uid);
-                    setEmail(user.email);
-                } else {
-                    setUserId(null);
-                    setEmail(null);
+                setUserId(user.uid);
+                setEmail(user.email);
+
+                const userDoc = doc(db, "users", user.uid);
+                const docSnap = await getDoc(userDoc);
+                if (docSnap.exists()) {
+                    setHasLoggedIn(docSnap.data().hasLoggedIn);
                 }
             } else {
                 setUserId(null);
                 setEmail(null);
+                setHasLoggedIn(false);
             }
             setLoading(false);
         });
@@ -30,7 +34,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ userId, email, loading }}> 
+        <UserContext.Provider value={{ userId, email, hasLoggedIn, setHasLoggedIn, loading }}>
             {children}
         </UserContext.Provider>
     );

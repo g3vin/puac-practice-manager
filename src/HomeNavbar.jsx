@@ -8,7 +8,7 @@ import logoutIcon from './assets/logoutIcon.png';
 import homeIcon from './assets/homeicon.png';
 
 const HomeNavbar = () => {
-    const { userId, setUserId, loading } = useUser();
+    const { userId, hasLoggedIn, loading } = useUser();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const navigate = useNavigate();
 
@@ -18,27 +18,36 @@ const HomeNavbar = () => {
         };
 
         window.addEventListener('resize', handleResize);
-
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
+    // Watch for changes in `hasLoggedIn` to immediately reflect login status
+    useEffect(() => {
+        if (userId && hasLoggedIn) {
+            console.log("User is logged in, updating UI");
+        }
+    }, [hasLoggedIn, userId]);
+
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            setUserId(null);
             navigate('/login');
         } catch (error) {
             console.error('Error signing out:', error);
         }
     };
 
-    const handleHome = async () => {
-        try {
-            navigate('/home');
-        } catch (error) {
-            console.error('Error going home:', error);
+    const handleHome = () => {
+        navigate('/home');
+    };
+
+    const handleInfo = () => {
+        if (userId && hasLoggedIn) {
+            navigate('/info');
+        } else {
+            console.log("Please log in to access this page.");
         }
     };
 
@@ -48,19 +57,19 @@ const HomeNavbar = () => {
 
     return (
         <div className="home_navbar">
-            {userId && (
+            {userId && hasLoggedIn && (
                 <button className="logout-button" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                     <img src={logoutIcon} alt="Logout" />
                 </button>
             )}
-            {userId && (
+            {userId && hasLoggedIn && (
                 <button className="home-button" onClick={handleHome} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
                     <img src={homeIcon} alt="Home" />
                 </button>
             )}
             <div className="nav_content">
                 <div className="divider-left"></div>
-                <h2 onClick={() => navigate('/info')} style={{cursor: 'pointer'}}>
+                <h2 onClick={handleInfo} style={{ cursor: 'pointer' }}>
                     {windowWidth < 700 ? 'PUAC' : 'Purdue University Archery Club'}
                 </h2>
                 <div className="divider-right"></div>
