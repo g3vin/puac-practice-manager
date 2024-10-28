@@ -1,4 +1,3 @@
-// LockedRoute.js
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from './UserContext';
@@ -6,7 +5,7 @@ import { useUser } from './UserContext';
 const LockedRoute = ({ children }) => {
     const { userId, loading } = useUser();
 
-    if (loading) return <p>Loading...</p>; // Show a loading state while checking auth
+    if (loading) return <p>Loading...</p>;
     return userId ? children : <Navigate to="/login" />;
 };
 

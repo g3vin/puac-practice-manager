@@ -1,53 +1,74 @@
 import React, { useState } from 'react';
-import { db } from './firebase'; // Import Firestore
-import { doc, setDoc } from 'firebase/firestore'; // Import Firestore methods
+import { db } from './firebase';
+import { doc, setDoc, getDoc, updateDoc, collection, getDocs, arrayUnion } from 'firebase/firestore';
 import { useUser } from './UserContext';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import './Welcome.css';
 import HomeNavbar from './HomeNavbar';
 
 function Welcome() {
-  const { userId } = useUser();
+  const { userId, email } = useUser();
   const [showForm, setShowForm] = useState(false);
   const [nameFirst, setNameFirst] = useState('');
   const [nameLast, setNameLast] = useState('');
-  const [practices, setPractices] = useState('');
-  const [bowType, setBowType] = useState(''); // Initialize bowType as an empty string
-  const [personalEquipment, setPersonalEquipment] = useState(''); // Initialize personalEquipment as an empty string
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [bowType, setBowType] = useState('');
+  const [personalEquipment, setPersonalEquipment] = useState('');
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Create a user document in Firestore with the user's information and update hasLoggedIn to true
       const userDoc = doc(db, "users", userId);
+      const emailPaidCountsDoc = doc(db, "emailPaidCounts", email);
+
+      const emailPaidCountsSnap = await getDoc(emailPaidCountsDoc);
+      const paidPracticesFromEmail = emailPaidCountsSnap.exists()
+        ? emailPaidCountsSnap.data().paid || 0
+        : 0;
+
+      const practicesSnapshot = await getDocs(collection(db, "practices"));
+      let practiceList = [];
+      let carpoolCount = 0;
+
+      practicesSnapshot.forEach((practice) => {
+        const practiceData = practice.data();
+
+        if (practiceData.emails?.includes(email)) {
+          practiceList.push(practice.id);
+          updateDoc(practice.ref, { members: arrayUnion(userId) });
+        }
+
+        if (practiceData.carpoolEmails?.includes(email)) {
+          carpoolCount += 1;
+          updateDoc(practice.ref, { carpool: arrayUnion(userId) });
+        }
+      });
+
       await setDoc(userDoc, {
         nameFirst,
         nameLast,
         bowType,
         personalEquipment,
         hasLoggedIn: true,
-        paidPractices: 2,
-        practices
+        paidPractices: 2 + paidPracticesFromEmail + carpoolCount,
+        practices: practiceList
       }, { merge: true });
-  
-      // Clear the form fields after submission
+
       setNameFirst('');
       setNameLast('');
       setBowType('');
       setPersonalEquipment('');
       setShowForm(false);
 
-      // Navigate to the Info page
       navigate('/info');
     } catch (error) {
-      console.error("Error writing document: ", error); // Log the error
+      console.error("Error writing document: ", error);
     }
   };
 
   return (
-    <div className="container"> {/* Add the container class here */}
+    <div className="container">
       <HomeNavbar />
       {!showForm && <h1>Welcome to the Purdue University Archery Club!</h1>}
       {!showForm && <p>To get to know you better, please answer a couple short questions. Your responses can always be changed later!</p>}
@@ -59,7 +80,7 @@ function Welcome() {
         <form onSubmit={handleFormSubmit}>
           <h1>My Profile</h1>
           <div>
-            <label>Prefered First Name</label>
+            <label>Preferred First Name</label>
             <input
               type="text"
               value={nameFirst}
@@ -68,7 +89,7 @@ function Welcome() {
             />
           </div>
           <div>
-            <label>Prefered Last Name</label>
+            <label>Preferred Last Name</label>
             <input
               type="text"
               value={nameLast}
@@ -82,7 +103,7 @@ function Welcome() {
               onChange={(e) => setBowType(e.target.value)}
               required
             >
-              <option value="" disabled>Choose your prefered bow type</option>
+              <option value="" disabled>Choose your preferred bow type</option>
               <option value="Compound">Compound</option>
               <option value="Recurve">Recurve</option>
               <option value="Barebow">Barebow</option>

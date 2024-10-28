@@ -8,6 +8,7 @@ import PracticeManager from './PracticeManager';
 import CheckIn from './CheckIn';
 import { useNavigate } from 'react-router-dom';
 import ViewPastPractices from './ViewPastPractices';
+import RandomWelcomeMessage from './RandomWelcomeMessage';
 
 function Home() {
   const { userId } = useUser();
@@ -130,7 +131,13 @@ function Home() {
   };
 
   const handleTileClick = (tileIndex) => {
-    if (tileIndex === 2) {
+    if (tileIndex === 1) {
+      if (role === 'Officer') {
+        navigate('/manage-practices');
+      } else {
+        setActiveTile(tileIndex);
+      }
+    } else if (tileIndex === 2) {
       if (role === 'Officer') {
         navigate('/manage-members');
       } else {
@@ -145,7 +152,6 @@ function Home() {
     setActiveTile(null);
   };
 
-  // Define tiles based on role
   const tiles = [
     ...(role === 'Officer' ? [
       {
@@ -153,7 +159,7 @@ function Home() {
         content: <PracticeManager />,
       },
       {
-        title: 'Club Practice History',
+        title: 'Manage Club Practices',
         content: <p>Review past practices held by the club.</p>,
       },
       {
@@ -168,7 +174,7 @@ function Home() {
     {
       title: 'Purchase Practices',
       content: <>
-        <p class="purchase-msg">Your first two practices are always free! All practices after are $3 each and can be purchased on our TooCool page.</p>
+        <p className="purchase-msg">Your first two practices are always free! All practices after are $3 each and can be purchased on our TooCool page.</p>
         <a href="https://www.toocoolpurdue.com/TooCOOLPurdueWL/vECItemCatalogOrganizationItems/OrganizationItemsGallery.aspx?Organization=p0RCbTmGOlE%3D" target="_blank" rel="noopener noreferrer">
           <button>Purchase Practices →</button>
         </a>
@@ -186,6 +192,7 @@ function Home() {
       <div className="flex-container">
         <div className="welcome-container">
           <h1>Hi, {nameFirst}</h1>
+          <RandomWelcomeMessage />
         </div>
 
         {isPracticeStarted && currentPracticeData && (

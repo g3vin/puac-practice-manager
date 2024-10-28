@@ -1,9 +1,10 @@
+// ManageMembers.js
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase';
-import { collection, getDocs, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, updateDoc, arrayRemove, writeBatch } from 'firebase/firestore';
 import { useUser } from './UserContext';
 import HomeNavbar from './HomeNavbar';
-import { getAuth, deleteUser } from 'firebase/auth';
+import ViewUsersPastPractices from './ViewUsersPastPractices';
 import "./ManageMembers.css";
 
 function ManageMembers() {
@@ -11,6 +12,7 @@ function ManageMembers() {
   const [members, setMembers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMember, setSelectedMember] = useState(null);
+  const [viewingPractices, setViewingPractices] = useState(false);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -38,20 +40,53 @@ function ManageMembers() {
   const updatePaidPractices = async (memberId, newPaidPractices) => {
     const memberRef = doc(db, 'users', memberId);
     await updateDoc(memberRef, { paidPractices: newPaidPractices });
-    setMembers(members.map(member => member.id === memberId ? { ...member, paidPractices: newPaidPractices } : member));
+    setMembers(members.map(member => 
+      member.id === memberId ? { ...member, paidPractices: newPaidPractices } : member
+    ));
+    setSelectedMember(prev => ({
+      ...prev,
+      paidPractices: newPaidPractices
+    }));
   };
 
   const removeMember = async (memberId) => {
     const confirmDelete = window.confirm("Are you sure you want to remove this member?");
+    
     if (confirmDelete) {
-      const memberRef = doc(db, 'users', memberId);
-      await deleteDoc(memberRef);
-      setMembers(members.filter(member => member.id !== memberId));
+      try {
+        const memberRef = doc(db, 'users', memberId);
+        await deleteDoc(memberRef);
+        
+        const batch = writeBatch(db);
+        const practicesRef = collection(db, 'practices');
+        const practicesSnapshot = await getDocs(practicesRef);
+  
+        practicesSnapshot.forEach((practiceDoc) => {
+          const practiceData = practiceDoc.data();
+  
+          if (practiceData.members && practiceData.members.includes(memberId)) {
+            const practiceRef = doc(db, 'practices', practiceDoc.id);
+            batch.update(practiceRef, {
+              members: arrayRemove(memberId)
+            });
+          }
+        });
+  
+        await batch.commit();
+  
+        setMembers(members.filter(member => member.id !== memberId));
+  
+        console.log("Member and all related practice entries successfully removed.");
+      } catch (error) {
+        console.error("Error removing member from practices: ", error);
+      }
     }
   };
 
-  const viewPractices = (memberId) => {
-    alert(`Viewing practices for member with ID: ${memberId}`);
+
+  const viewPractices = (member) => {
+    setSelectedMember(member);
+    setViewingPractices(true);
   };
 
   const handleSearchChange = (e) => {
@@ -70,12 +105,13 @@ function ManageMembers() {
 
   const closeModal = () => {
     setSelectedMember(null);
+    setViewingPractices(false);
   };
 
   return (
     <div>
       <HomeNavbar />
-      <div className={`container ${selectedMember ? 'blurred' : ''}`}>
+      <div className={`container2 ${selectedMember ? 'blurred' : ''}`}>
         <h1>Manage Club Members</h1>
         <div className="search">
           <input
@@ -83,7 +119,6 @@ function ManageMembers() {
             placeholder="Search by name or email..."
             value={searchTerm}
             onChange={handleSearchChange}
-            style={{ marginBottom: '20px', padding: '8px', width: '300px' }}
           />
         </div>
         {filteredMembers.length === 0 ? (
@@ -134,7 +169,7 @@ function ManageMembers() {
                       </td>
                       <td className="responsive-hide">
                         <button onClick={() => removeMember(member.id)}>Remove</button>
-                        <button onClick={() => viewPractices(member.id)}>View Practices</button>
+                        <button onClick={() => viewPractices(member)}>View Practices</button>
                       </td>
                     </tr>
                   );
@@ -145,41 +180,50 @@ function ManageMembers() {
         )}
       </div>
 
-      {/* Overlay and Modal */}
       {selectedMember && (
         <div className="overlay" onClick={closeModal}>
           <div className="modal2" onClick={(e) => e.stopPropagation()}>
-          <div className="modal-content">
-            <h2>{selectedMember.nameFirst} {selectedMember.nameLast}</h2>
-            <p><strong>Email:</strong> {selectedMember.email}</p>
-            <p><strong>Attended Practices:</strong> {selectedMember.practices ? selectedMember.practices.length : 0}</p>
+            <div className="modal-content">
+              {viewingPractices ? ( 
+                <ViewUsersPastPractices userId={selectedMember.id} goBack={() => setViewingPractices(false)} /> 
+              ) : (
+                <>
+                  <h2>{selectedMember.nameFirst} {selectedMember.nameLast}</h2>
+                  <p><strong>Email:</strong> {selectedMember.email}</p>
+                  <p><strong>Attended Practices:</strong> {selectedMember.practices ? selectedMember.practices.length : 0}</p>
 
-            <div className="modal-row">
-              <label><strong>Total Paid Practices:</strong></label>
-              <input
-                type="number"
-                value={selectedMember.paidPractices || 0}
-                onChange={(e) => updatePaidPractices(selectedMember.id, parseInt(e.target.value))}
-                style={{ width: '60px' }}
-              />
-            </div>
+                  <div className="modal-row">
+                    <label><strong>Total Paid Practices:</strong></label>
+                    <input
+                      type="number"
+                      value={selectedMember.paidPractices || 0}
+                      onChange={(e) => {
+                        const newPaidPractices = parseInt(e.target.value);
+                        setSelectedMember({ ...selectedMember, paidPractices: newPaidPractices }); // Update selectedMember state
+                        updatePaidPractices(selectedMember.id, newPaidPractices); // Update database and members list
+                      }}
+                      style={{ width: '60px', color: selectedMember.paidPractices - selectedMember.practices.length>= 0 ? 'green' : 'red' }}
+                    />
+                  </div>
 
-            <div className="modal-row">
-              <label><strong>Role:</strong></label>
-              <select
-                value={selectedMember.role}
-                onChange={(e) => changeRole(selectedMember.id, e.target.value)}
-              >
-                <option value="Member">Member</option>
-                <option value="Officer">Officer</option>
-              </select>
-            </div>
+                  <div className="modal-row">
+                    <label><strong>Role:</strong></label>
+                    <select
+                      value={selectedMember.role}
+                      onChange={(e) => changeRole(selectedMember.id, e.target.value)}
+                    >
+                      <option value="Member">Member</option>
+                      <option value="Officer">Officer</option>
+                    </select>
+                  </div>
 
-            <div className="modal-row">
-              <button onClick={() => removeMember(selectedMember.id)}>Remove</button>
-              <button onClick={() => viewPractices(selectedMember.id)}>View Practices</button>
+                  <div className="modal-row">
+                    <button onClick={() => removeMember(selectedMember.id)}>Remove</button>
+                    <button onClick={() => viewPractices(selectedMember)}>View Practices</button>
+                  </div>
+                </>
+              )}
             </div>
-          </div>
           </div>
         </div>
       )}

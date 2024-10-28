@@ -45,7 +45,7 @@ function Login() {
   const handleSignupSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (!username.endsWith('@purdue.edu') && false) {
+      if (!username.endsWith('@purdue.edu')) {
         setErrorMessage('Email must end with @purdue.edu');
         return;
       }
@@ -82,7 +82,7 @@ function Login() {
     try {
       await sendPasswordResetEmail(auth, username);
       setErrorMessage('Password reset email sent! Please check your inbox.');
-      setIsResettingPassword(false); // Reset the state after sending the email
+      setIsResettingPassword(false);
     } catch (error) {
       setErrorMessage('Error sending password reset email: ' + error.message);
     }

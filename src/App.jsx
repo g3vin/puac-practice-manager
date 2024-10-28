@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { UserProvider, useUser } from './UserContext';
 import Login from './Login';
-import LockedRoute from './LockedRoute'; // Import the LockedRoute for protected routes
-import Home from './Home'; // Import your Home component
-import Welcome from './Welcome'; // Import your Welcome component
-import Info from './Info'; // Import your Info component
-import { UserProvider, useUser } from './UserContext'; // Import UserProvider and useUser
+import LockedRoute from './LockedRoute';
+import Home from './Home';
+import Welcome from './Welcome';
+import Info from './Info';
 import ManageMembers from './ManageMembers';
+import ManagePractices from './ManagePractices';
 
 function App() {
   return (
@@ -51,6 +52,14 @@ function AppRoutes() {
               element={
                   <LockedRoute>
                       <ManageMembers />
+                  </LockedRoute>
+              }
+          />
+          <Route
+              path="/manage-practices"
+              element={
+                  <LockedRoute>
+                      <ManagePractices />
                   </LockedRoute>
               }
           />

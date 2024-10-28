@@ -4,7 +4,8 @@ import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
 import './HomeNavbar.css';
 import { useNavigate } from 'react-router-dom';
-import logoutIcon from './assets/logoutIcon.png'; // Make sure to update this path
+import logoutIcon from './assets/logoutIcon.png';
+import homeIcon from './assets/homeicon.png';
 
 const HomeNavbar = () => {
     const { userId, setUserId, loading } = useUser();
@@ -33,6 +34,14 @@ const HomeNavbar = () => {
         }
     };
 
+    const handleHome = async () => {
+        try {
+            navigate('/home');
+        } catch (error) {
+            console.error('Error going home:', error);
+        }
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -44,9 +53,14 @@ const HomeNavbar = () => {
                     <img src={logoutIcon} alt="Logout" />
                 </button>
             )}
+            {userId && (
+                <button className="home-button" onClick={handleHome} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                    <img src={homeIcon} alt="Home" />
+                </button>
+            )}
             <div className="nav_content">
                 <div className="divider-left"></div>
-                <h2 onClick={() => navigate('/home')}>
+                <h2 onClick={() => navigate('/info')} style={{cursor: 'pointer'}}>
                     {windowWidth < 700 ? 'PUAC' : 'Purdue University Archery Club'}
                 </h2>
                 <div className="divider-right"></div>

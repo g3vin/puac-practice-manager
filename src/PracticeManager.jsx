@@ -11,8 +11,8 @@ function PracticeManager() {
   const [attendanceLimit, setAttendanceLimit] = useState('none');
   const [currentPracticeData, setCurrentPracticeData] = useState(null);
   const [uptime, setUptime] = useState('');
-  const [carpool, setCarpool] = useState('');
-  const [makeFree, setMakeFree] = useState(false); // State for checkbox
+  const [makeFree, setMakeFree] = useState(false);
+  const [carpoolHelp, setCarpoolHelp] = useState(false);
 
   useEffect(() => {
     const today = new Date();
@@ -86,7 +86,7 @@ function PracticeManager() {
         startDateTime: new Date(),
         attendanceLimit: attendanceLimit === 'none' ? null : attendanceLimit,
         members: [userId],
-        carpool
+        carpool: carpoolHelp ? [userId] : []
       };
   
       // Create a new practice document
@@ -128,26 +128,23 @@ function PracticeManager() {
       const { practiceId } = activePracticeDoc.data();
       const practiceDocRef = doc(db, 'practices', practiceId);
       const practiceData = await getDoc(practiceDocRef);
-      const attendees = practiceData.data().members || []; // Get the members of the practice
+      const attendees = practiceData.data().members || [];
 
-      // Update the practice document with the end time
       await updateDoc(practiceDocRef, {
         endDateTime: new Date(),
       });
 
-      // Update the activePractice document in settings
       await updateDoc(activePracticeRef, {
         isActive: false,
         practiceId: null,
       });
 
-      // Award paidPractice if "Make this practice free" is checked
       if (makeFree) {
         await Promise.all(attendees.map(async (attendeeId) => {
-          if (!practiceData.data().carpool.includes(attendeeId)) { // Exclude carpool members
+          if (!practiceData.data().carpool.includes(attendeeId)) {
             const userRef = doc(db, 'users', attendeeId);
             await updateDoc(userRef, {
-              paidPractices: increment(1) // Increment paidPractices
+              paidPractices: increment(1)
             });
           }
         }));
@@ -156,7 +153,7 @@ function PracticeManager() {
       setIsPracticeStarted(false);
       setCurrentPracticeData(null);
       setUptime('');
-      setMakeFree(false); // Reset checkbox
+      setMakeFree(false);
 
       console.log('Practice ended successfully');
     } catch (error) {
@@ -188,6 +185,14 @@ function PracticeManager() {
             onChange={(e) => setAttendanceLimit(e.target.value)}
             placeholder="Attendance Limit (or 'none')"
           />
+          <label>
+            <input
+              type="checkbox"
+              checked={carpoolHelp}
+              onChange={(e) => setCarpoolHelp(e.target.checked)}
+            />
+            Helped drive for carpool
+          </label>
           <button onClick={startPractice}>Start Practice</button>
         </>
       ) : (

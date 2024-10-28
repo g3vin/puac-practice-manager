@@ -17,13 +17,15 @@
     width: 100%;
     justify-content: space-between;
     padding: 0 30px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 .divider-left {
     height: 6px;
     background-color: #2b333a;
     flex-grow: 1;
-    margin: 0 20px;
+    margin: 0 0px;
     position: relative;
 }
 
@@ -33,7 +35,7 @@
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    border-left: 100px solid #2b333a;
+    border-left: 90px solid #2b333a;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
 }
@@ -42,7 +44,7 @@
     height: 6px;
     background-color: #2b333a;
     flex-grow: 1;
-    margin: 0 20px;
+    margin: 0;
     position: relative;
 }
 
@@ -62,11 +64,13 @@
     white-space: nowrap;
     z-index: 1;
     font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .logout-button {
     position: absolute;
-    left: 5px;
+    left: 0px;
     top: 52%;
     transform: translateY(-50%);
     border: none;
@@ -82,16 +86,22 @@
     filter: invert(20%) saturate(50%) hue-rotate(240deg);
 }
 
-@media (max-width: 700px) {
-    .divider-left {
-        margin-left: -10px;
-        margin-right: 10px;
-    }
+.home-button {
+    position: absolute;
+    right: 0;
+    top: 52%;
+    transform: translateY(-50%);
+    border: none;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+    z-index: 11;
+    box-shadow: none;
+}
 
-    .divider-right {
-        margin-right: -10px;
-        margin-left: 10px;
-    }
+.home-button img {
+    width: 40px;
+    height: 40px;
+    filter: invert(20%) saturate(50%) hue-rotate(240deg);
 }
 
 @media (max-width: 380px) {

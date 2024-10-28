@@ -1,8 +1,26 @@
-.container {
+.info-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: 100vh;
+}
+
+.info-container h1 {
+    max-width: 100%;
+    text-align: center;
+    margin-top: 200px;
+}
+
+.info-container ul, li {
+    align-content: center;
+    max-width: 600px;
+}
+
+.info-container button {
+    margin-bottom: 50px;
+}
+
+.info-container p {
     text-align: center;
 }

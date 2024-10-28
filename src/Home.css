@@ -4,8 +4,7 @@
     align-items: center;
     justify-content: flex-start;
     height: 100vh;
-  }
-  
+}
 
 .container {
     margin-top:50px;
@@ -17,6 +16,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: flex-start;
     gap: 25px;
     margin-bottom: 50px;
     max-width: 1200px;
@@ -62,15 +62,15 @@
     background-color: rgb(225, 225, 225);
     border-radius: 15px;
     padding: 20px;
-    max-width: 600px;
-    width: 80%;
+    max-width: 600px; /* Keep the width fixed */
+    width: 80%; /* Adjust the width based on your requirement */
     min-width: 300px;
-    max-height: 500px;
-    height: 60%;
+    max-height: 90vh; /* Prevents the modal from getting too tall */
+    overflow-y: auto; /* Adds a scrollbar if the content exceeds the max height */
     text-align: center;
     z-index: 20;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: width 0.3s ease;
+    transition: height 0.3s ease; /* Smooth transition for height changes */
 }
   
 .modal h2 {
@@ -92,17 +92,13 @@
     text-align: center;
 }
 
-.close-button {
-    margin-left: auto;
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
 .welcome-container {
     margin-top: 200px;
     padding-bottom: 50px;
+}
+
+.welcome-container h1 {
+    max-width: 100%;
 }
 
 .attendance-container {
