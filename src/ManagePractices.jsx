@@ -56,31 +56,33 @@ function ManagePractices() {
   });
 
   const deletePractice = async (practiceId) => {
-      const confirmDelete = window.confirm("Are you sure you want to remove this practice?");
-      if (confirmDelete) {
-          const practiceRef = doc(db, 'practices', practiceId);
+    const confirmDelete = window.confirm("Are you sure you want to remove this practice?");
+    if (confirmDelete) {
+      const practiceRef = doc(db, 'practices', practiceId);
   
-          const usersCollection = collection(db, 'users');
-          const usersSnapshot = await getDocs(usersCollection);
-          
-          const batch = writeBatch(db);
+      const usersCollection = collection(db, 'users');
+      const usersSnapshot = await getDocs(usersCollection);
   
-          usersSnapshot.docs.forEach((userDoc) => {
-              const userData = userDoc.data();
-              const userPractices = userData.practices || [];
+      const batch = writeBatch(db);
   
-              if (userPractices.includes(practiceId)) {
-                  const updatedPractices = userPractices.filter(id => id !== practiceId);
-                  batch.update(userDoc.ref, { practices: updatedPractices });
-              }
-          });
+      usersSnapshot.docs.forEach((userDoc) => {
+        const userData = userDoc.data();
+        const userPractices = userData.practices || [];
   
-          await batch.commit();
+        if (userPractices.includes(practiceId)) {
+          const updatedPractices = userPractices.filter(id => id !== practiceId);
+          batch.update(userDoc.ref, { practices: updatedPractices });
+        }
+      });
   
-          await deleteDoc(practiceRef);
-          setPractices(practices.filter(practice => practice.id !== practiceId));
-      }
+      await batch.commit();
+      await deleteDoc(practiceRef);
+  
+      // Use a functional update to modify practices state
+      setPractices(prevPractices => prevPractices.filter(practice => practice.id !== practiceId));
+    }
   };
+  
   
 
   const viewDetails = (practice) => {
@@ -161,7 +163,13 @@ function ManagePractices() {
       {viewingCarpool && selectedPractice && (
         <div className="overlay" onClick={() => setViewingCarpool(false)}>
           <div className="modal2" onClick={(e) => e.stopPropagation()}>
-            <ViewPracticeDetails practice={selectedPractice} goBack={() => setViewingCarpool(false)} />
+          <ViewPracticeDetails 
+              practice={selectedPractice} 
+              goBack={() => setViewingDetails(false)} 
+              practices={practices} 
+              setPractices={setPractices} 
+              handleDeletePractice={handleDeletePractice} 
+            />
           </div>
         </div>
       )}

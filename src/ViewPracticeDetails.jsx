@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db } from './firebase';
-import { doc, getDoc, deleteDoc } from 'firebase/firestore';
+import { doc, getDoc, deleteDoc, collection, getDocs, writeBatch} from 'firebase/firestore';
 import './ViewPracticeDetails.css'
 
 const ViewPracticeDetails = ({ practice, goBack }) => {
@@ -55,9 +55,24 @@ const ViewPracticeDetails = ({ practice, goBack }) => {
     fetchAttendees();
   }, [practice.id]);
 
-  const handleDeletePractice = async () => {
+  const handleDeletePractice = async (practiceId) => {
     if (window.confirm("Are you sure you want to delete this practice?")) {
       const practiceDocRef = doc(db, 'practices', practice.id);
+      const usersCollection = collection(db, 'users');
+      const usersSnapshot = await getDocs(usersCollection);
+  
+      const batch = writeBatch(db);
+  
+      usersSnapshot.docs.forEach((userDoc) => {
+        const userData = userDoc.data();
+        const userPractices = userData.practices || [];
+  
+        if (userPractices.includes(practiceId)) {
+          const updatedPractices = userPractices.filter(id => id !== practiceId);
+          batch.update(userDoc.ref, { practices: updatedPractices });
+        }
+      });
+      await batch.commit();
       await deleteDoc(practiceDocRef);
       goBack();
     }
@@ -85,7 +100,7 @@ const ViewPracticeDetails = ({ practice, goBack }) => {
             <div className="practice-details-container-buttons">
                 <button onClick={() => setViewingAttendees(true)}>View Attendees</button>
                 <button onClick={() => setViewingCarpoolers(true)}>View Carpool List</button>
-                <button onClick={handleDeletePractice} className="delete-button">Delete Practice</button>
+                <button onClick={() => handleDeletePractice(practice.id)} className="delete-button">Delete Practice</button>
             </div>
         </>
       ) : viewingAttendees ? (
