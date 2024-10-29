@@ -150,6 +150,10 @@
     margin-right: 20px;
     margin-left: 20px;
 }
+
+.responsive-member button {
+    font-size: large;
+}
   
 .responsive-practice-info {
     display: flex;

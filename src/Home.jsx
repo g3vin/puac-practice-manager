@@ -135,7 +135,7 @@ function Home() {
     try {
       const practiceRef = doc(db, 'practices', currentPracticeData.id);
       const userRef = doc(db, 'users', memberId);
-
+  
       const isInCarpool = carpoolMembers.has(memberId);
   
       if (isInCarpool) {
@@ -147,7 +147,6 @@ function Home() {
           carpool: arrayRemove(memberId),
         });
   
-        // Update the state
         setCarpoolMembers((prev) => {
           const updated = new Set(prev);
           updated.delete(memberId);
@@ -161,8 +160,12 @@ function Home() {
         await updateDoc(practiceRef, {
           carpool: arrayUnion(memberId),
         });
-
-        setCarpoolMembers((prev) => new Set(prev).add(memberId));
+  
+        setCarpoolMembers((prev) => {
+          const updated = new Set(prev);
+          updated.add(memberId);
+          return updated;
+        });
       }
     } catch (error) {
       console.error("Error updating carpool status: ", error);
@@ -259,23 +262,23 @@ function Home() {
                     <tr key={member.id}>
                       {role === 'Officer' && (
                         <td className="center-text">
-                          <input
-                            type="checkbox"
-                            checked={isCarpool}
-                            onChange={() => handleCarpoolToggle(member.id)}
-                          />
+                          <button
+                            onClick={() => handleCarpoolToggle(member.id)}
+                          >
+                            {carpoolMembers.has(member.id) ? '🚗' : '🧍'}
+                          </button>
                         </td>
                       )}
                       <td className="center-text">{member.nameFirst} {member.nameLast}</td>
                       {role === 'Officer' && <td className="center-text">{member.email}</td>}
                       {role === 'Officer' && (
-                        <td className="center-text" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
-                          {remainingPaidPractices}
+                        <td className="center-text" style={{ color: isCarpool ? 'blue' : 'inherit' }}>
+                        {member.nameFirst} {member.nameLast}
                         </td>
                       )}
                       {role === 'Officer' && (
-                        <td className="center-text">
-                          <button onClick={() => handleRemoveMember(member.id)}>X</button>
+                        <td className="center-text" style={{ color: isCarpool ? 'blue' : 'inherit' }}>
+                          {member.email}
                         </td>
                       )}
                     </tr>
@@ -287,15 +290,14 @@ function Home() {
             <div className="responsive-attendance">
               {membersInAttendance.map((member) => {
                 const remainingPaidPractices = member.paidPractices - member.practices.length;
-                const isCarpool = carpoolMembers.has(member.id);
                 return (
                   <div className="responsive-member" key={member.id}>
                     {role === 'Officer' && (
-                    <input
-                      type="checkbox"
-                      checked={isCarpool}
-                      onChange={() => handleCarpoolToggle(member.id)}
-                    />)}
+                    <button
+                    onClick={() => handleCarpoolToggle(member.id)}
+                  >
+                  {carpoolMembers.has(member.id) ? '🚗' : '🧍'}
+                  </button>)}
                     <div className="responsive-member-info">
                       <div>
                           <span className="responsive-name">
