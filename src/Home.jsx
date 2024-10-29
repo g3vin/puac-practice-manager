@@ -257,7 +257,6 @@ function Home() {
                 {membersInAttendance.map((member) => {
                   const remainingPaidPractices = member.paidPractices - member.practices.length;
                   const isCarpool = carpoolMembers.has(member.id);
-
                   return (
                     <tr key={member.id}>
                       {role === 'Officer' && (
@@ -265,20 +264,20 @@ function Home() {
                           <button
                             onClick={() => handleCarpoolToggle(member.id)}
                           >
-                            {carpoolMembers.has(member.id) ? '🚗' : '🧍'}
+                            {isCarpool ? '🚗' : '🧍'}
                           </button>
                         </td>
                       )}
                       <td className="center-text">{member.nameFirst} {member.nameLast}</td>
                       {role === 'Officer' && <td className="center-text">{member.email}</td>}
                       {role === 'Officer' && (
-                        <td className="center-text" style={{ color: isCarpool ? 'blue' : 'inherit' }}>
-                        {member.nameFirst} {member.nameLast}
+                        <td className="center-text" style={{ color: remainingPaidPractices < 0 ? 'red' : 'green' }}>
+                          {remainingPaidPractices}
                         </td>
                       )}
-                      {role === 'Officer' && (
-                        <td className="center-text" style={{ color: isCarpool ? 'blue' : 'inherit' }}>
-                          {member.email}
+
+                      {role === 'Officer' && (<td className="center-text">
+                          <button className="responsive-remove-button" onClick={() => handleRemoveMember(member.id)}>X</button>
                         </td>
                       )}
                     </tr>
@@ -290,13 +289,14 @@ function Home() {
             <div className="responsive-attendance">
               {membersInAttendance.map((member) => {
                 const remainingPaidPractices = member.paidPractices - member.practices.length;
+                const isCarpool = carpoolMembers.has(member.id);
                 return (
                   <div className="responsive-member" key={member.id}>
                     {role === 'Officer' && (
                     <button
                     onClick={() => handleCarpoolToggle(member.id)}
                   >
-                  {carpoolMembers.has(member.id) ? '🚗' : '🧍'}
+                    {isCarpool ? '🚗' : '🧍'}
                   </button>)}
                     <div className="responsive-member-info">
                       <div>
