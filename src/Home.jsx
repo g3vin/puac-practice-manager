@@ -49,59 +49,45 @@ function Home() {
       const unsubscribe = onSnapshot(activePracticeRef, async (activePracticeDoc) => {
         if (activePracticeDoc.exists()) {
           const data = activePracticeDoc.data();
-          console.log("Active practice data: ", data);
-
           if (data.isActive) {
             setIsPracticeStarted(true);
             const practiceDocRef = doc(db, 'practices', data.practiceId);
-            const practiceDoc = await getDoc(practiceDocRef);
-
-            if (practiceDoc.exists()) {
-              const practiceData = practiceDoc.data();
-              console.log("Current practice data: ", practiceData);
-              setCurrentPracticeData({ id: practiceDoc.id, ...practiceData });
-
-              const unsubscribeMembers = onSnapshot(practiceDocRef, (updatedPracticeDoc) => {
-                const updatedData = updatedPracticeDoc.data();
-                if (updatedData && updatedData.members) {
-                  const memberPromises = updatedData.members.map(async (memberId) => {
-                    const memberDocRef = doc(db, 'users', memberId);
-                    const memberDoc = await getDoc(memberDocRef);
-
-                    if (memberDoc.exists()) {
-                      return { id: memberDoc.id, ...memberDoc.data() };
-                    }
-                    else {
-                      return null;
-                    }
-                  });
-
-                  Promise.all(memberPromises).then((memberData) => {
-                    setMembersInAttendance(memberData.filter((member) => member !== null));
-                  });
-                }
-              });
-
-              setActiveTile(null);
-              return () => unsubscribeMembers();
-            }
+  
+            // Listen for real-time updates to the practice document
+            const unsubscribePractice = onSnapshot(practiceDocRef, (practiceDoc) => {
+              if (practiceDoc.exists()) {
+                const practiceData = practiceDoc.data();
+                setCurrentPracticeData({ id: practiceDoc.id, ...practiceData });
+  
+                // Update members in attendance and carpool members
+                const carpoolSet = new Set(practiceData.carpool || []);
+                setCarpoolMembers(carpoolSet);
+  
+                // Fetch and set member attendance details
+                const memberPromises = (practiceData.members || []).map(async (memberId) => {
+                  const memberDocRef = doc(db, 'users', memberId);
+                  const memberDoc = await getDoc(memberDocRef);
+                  return memberDoc.exists() ? { id: memberDoc.id, ...memberDoc.data() } : null;
+                });
+  
+                Promise.all(memberPromises).then((memberData) => {
+                  setMembersInAttendance(memberData.filter((member) => member !== null));
+                });
+              }
+            });
+  
+            return () => unsubscribePractice();
           } else {
             setIsPracticeStarted(false);
-            setActiveTile(null);
             setCurrentPracticeData(null);
             setMembersInAttendance([]);
           }
-        } else {
-          setIsPracticeStarted(false);
-          setActiveTile(null);
-          setCurrentPracticeData(null);
-          setMembersInAttendance([]);
         }
       });
-      
+  
       return () => unsubscribe();
     };
-
+  
     fetchActivePractice();
   }, []);
 
