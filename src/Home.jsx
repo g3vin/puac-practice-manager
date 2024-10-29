@@ -198,7 +198,7 @@ function Home() {
     ] : []),
     {
       title: 'Check Into Practice',
-      content: <CheckIn />,
+      content: <CheckIn onClose={handleCloseModal} />,
     },
     {
       title: 'Purchase Practices',

@@ -3,7 +3,7 @@ import { doc, getDoc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from './firebase';
 import { useUser } from './UserContext';
 
-function CheckIn() {
+function CheckIn( {onClose} ) {
   const { userId } = useUser();
   const [isPracticeStarted, setIsPracticeStarted] = useState(false);
   const [activePracticeId, setActivePracticeId] = useState(null);
@@ -76,9 +76,12 @@ function CheckIn() {
       await updateDoc(practiceRef, {
         members: arrayUnion(userId)
       });
-
-      alert('You have successfully checked into the practice!');
+      
       setAlreadyCheckedIn(true);
+
+      if (onClose) {
+        onClose();
+      }
 
     } catch (error) {
       console.error('Error checking into practice:', error);
