@@ -81,7 +81,7 @@ const ViewPracticeDetails = ({ practice, goBack }) => {
   const getFormattedDate = (date) => (date ? date.toDate().toLocaleString() : 'N/A');
   const getPracticeLength = () => {
     if (practice.startDateTime && practice.endDateTime) {
-      const length = (practice.endDateTime.toDate() - practice.startDateTime.toDate()) / (1000 * 60);
+      const length = Math.round((practice.endDateTime.toDate() - practice.startDateTime.toDate()) / (1000 * 60));
       return `${length} mins`;
     }
     return 'N/A';
