@@ -3,7 +3,7 @@ import { db } from './firebase';
 import { collection, addDoc, doc, updateDoc, getDoc, setDoc, arrayUnion, increment } from 'firebase/firestore'; 
 import { useUser } from './UserContext';
 
-function PracticeManager() {
+function PracticeManager( {onClose} ) {
   const { userId } = useUser();
   const [isPracticeStarted, setIsPracticeStarted] = useState(false);
   const [practiceName, setPracticeName] = useState('');
@@ -102,6 +102,10 @@ function PracticeManager() {
   
       setCurrentPracticeData(practiceData);
       startUptimeClock(practiceData.startDateTime);
+
+      if (onClose) {
+        onClose();
+      }
   
     } catch (error) {
       console.error('Error starting practice:', error);
@@ -149,6 +153,10 @@ function PracticeManager() {
       setCurrentPracticeData(null);
       setUptime('');
       setMakeFree(false);
+
+      if (onClose) {
+        onClose();
+      }
 
       console.log('Practice ended successfully');
     } catch (error) {

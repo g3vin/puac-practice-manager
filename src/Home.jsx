@@ -185,7 +185,7 @@ function Home() {
     ...(role === 'Officer' ? [
       {
         title: isPracticeStarted ? 'End Practice' : 'Start a Practice',
-        content: <PracticeManager />,
+        content: <PracticeManager onClose={handleCloseModal} />,
       },
       {
         title: 'Manage Club Practices',
