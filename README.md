@@ -1,6 +1,6 @@
 # A Practice Manager for The Purdue University Archery Club
 
-Accessed through puarchery.club
+Accessed through (puarchery.club)
 
 Features include:
 
