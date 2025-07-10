@@ -33,7 +33,7 @@ const HomeNavbar = () => {
     const handleLogout = async () => {
         try {
             await signOut(auth);
-            navigate('/login');
+            navigate('/');
         } catch (error) {
             console.error('Error signing out:', error);
         }
@@ -56,23 +56,25 @@ const HomeNavbar = () => {
     }
 
     return (
-        <div className="home_navbar">
-            {userId && hasLoggedIn && (
-                <button className="logout-button" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                    <img src={logoutIcon} alt="Logout" />
-                </button>
-            )}
-            {userId && hasLoggedIn && (
-                <button className="home-button" onClick={handleHome} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                    <img src={homeIcon} alt="Home" />
-                </button>
-            )}
-            <div className="nav_content">
-                <div className="divider-left"></div>
-                <h2 onClick={handleInfo} style={{ cursor: 'pointer' }}>
-                    {windowWidth < 700 ? 'PUAC' : 'Purdue University Archery Club'}
-                </h2>
-                <div className="divider-right"></div>
+        <div className='home-navbar-container'>
+            <div className="home_navbar">
+                {userId && hasLoggedIn && (
+                    <button className="logout-button" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <img src={logoutIcon} alt="Logout" />
+                    </button>
+                )}
+                {userId && hasLoggedIn && (
+                    <button className="home-button" onClick={handleHome} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
+                        <img src={homeIcon} alt="Home" />
+                    </button>
+                )}
+                <div className="nav_content">
+                    <div className="divider-left"></div>
+                        <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>
+                            {windowWidth < 700 ? 'PUAC' : 'Purdue Archery'}
+                        </h1>
+                    <div className="divider-right"></div>
+                </div>
             </div>
         </div>
     );

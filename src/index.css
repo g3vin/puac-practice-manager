@@ -19,20 +19,46 @@ body {
 }
 
 h1 {
-  font-size: 2.8em;
   line-height: 1.1;
   text-align: center;
+  font-family: 'New Rocker';
+  max-width: 1000px;
+  font-size: 2.5em;
+  color: #181421;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 button {
-  background: linear-gradient(90deg,  #f8b500, #fceabb);
-  color: black;
-  border: none;
-  border-radius: 8px;
+  background: none;
+  border-radius: 50px;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 12px;
   font-weight: bold;
+  backdrop-filter: blur(10px);
+  border: none;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 3px;
+  background: linear-gradient(
+    to right,
+    #fad419,
+    #c93855,
+    #0689bd,
+    #181421
+  );
+  border-radius: 50px;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  z-index: -1;
 }
 
 input {
