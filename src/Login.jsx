@@ -95,6 +95,7 @@ function Login() {
 
   return (
     <div>
+      <HomeNavbar />
       <div className="login-container">
         <h1>{isCreatingAccount ? 'Create Account' : isResettingPassword ? 'Reset Password' : 'Sign In'}</h1>
         <form onSubmit={isCreatingAccount ? handleSignupSubmit : isResettingPassword ? handlePasswordReset : handleLoginSubmit}>

@@ -44,11 +44,8 @@ const HomeNavbar = () => {
     };
 
     const handleInfo = () => {
-        if (userId && hasLoggedIn) {
-            navigate('/info');
-        } else {
-            console.log("Please log in to access this page.");
-        }
+
+            navigate('/');
     };
 
     if (loading) {
@@ -69,11 +66,9 @@ const HomeNavbar = () => {
                     </button>
                 )}
                 <div className="nav_content">
-                    <div className="divider-left"></div>
-                        <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>
-                            {windowWidth < 700 ? 'PUAC' : 'Purdue Archery'}
-                        </h1>
-                    <div className="divider-right"></div>
+                    <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>
+                        PUAC
+                    </h1>
                 </div>
             </div>
         </div>
