@@ -8,6 +8,14 @@ import Welcome from './Welcome';
 import Info from './Info';
 import ManageMembers from './ManageMembers';
 import ManagePractices from './ManagePractices';
+import LandingPage from './LandingPage';
+
+const protectedRoutes = [
+  { path: '/home', element: <Home /> },
+  { path: '/info', element: <Info /> },
+  { path: '/manage-members', element: <ManageMembers /> },
+  { path: '/manage-practices', element: <ManagePractices /> },
+];
 
 function App() {
   return (
@@ -20,50 +28,25 @@ function App() {
 }
 
 function AppRoutes() {
-  const { userId, loading } = useUser();
+  const { userId } = useUser();
   const isAuthenticated = userId !== null;
 
   return (
-      <Routes>
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="/login" element={<Login />} />
-          <Route
-              path="/home"
-              element={
-                  <LockedRoute>
-                      <Home />
-                  </LockedRoute>
-              }
-          />
-          <Route
-              path="/welcome"
-              element={isAuthenticated ? <Welcome /> : <Navigate to="/login" />}
-          />
-          <Route
-              path="/info"
-              element={
-                  <LockedRoute>
-                      <Info />
-                  </LockedRoute>
-              }
-          />
-          <Route
-              path="/manage-members"
-              element={
-                  <LockedRoute>
-                      <ManageMembers />
-                  </LockedRoute>
-              }
-          />
-          <Route
-              path="/manage-practices"
-              element={
-                  <LockedRoute>
-                      <ManagePractices />
-                  </LockedRoute>
-              }
-          />
-      </Routes>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route
+        path="/welcome"
+        element={isAuthenticated ? <Welcome /> : <Navigate to="/login" />}
+      />
+      {protectedRoutes.map(({ path, element }) => (
+        <Route
+          key={path}
+          path={path}
+          element={<LockedRoute>{element}</LockedRoute>}
+        />
+      ))}
+    </Routes>
   );
 }
 
