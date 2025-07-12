@@ -7,10 +7,8 @@ function LandingPage() {
 
   return (
     <>
-        <HomeNavbar />
         <div className='landing-page'>
-        <h1>Purdue Archery</h1>
-        <button onClick={() => navigate('/login')}>Sign in</button>
+        <p>Under Construction!</p>
         </div>
     </>
   );
