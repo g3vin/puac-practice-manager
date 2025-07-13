@@ -9,6 +9,7 @@ import Info from './Info';
 import ManageMembers from './ManageMembers';
 import ManagePractices from './ManagePractices';
 import LandingPage from './LandingPage';
+import Join from './Join';
 
 const protectedRoutes = [
   { path: '/home', element: <Home /> },
@@ -35,6 +36,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/join" element={<Join />} />
       <Route
         path="/welcome"
         element={isAuthenticated ? <Welcome /> : <Navigate to="/login" />}

@@ -4,7 +4,7 @@
     padding: 20px;
     border-radius: 12px;
     margin: 0 auto;
-    background-color: white;
+    background-color: transparent;
     box-sizing: border-box;
 }
 
@@ -28,14 +28,6 @@ h2 {
 .login-container label {
     display: block;
     margin-bottom: 8px;
-}
-
-.login-container button {
-    width: 100%;
-}
-
-.login-container button:hover {
-    background-color: #3d77ce;
 }
 
 .error-message {

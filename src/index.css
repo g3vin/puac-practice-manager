@@ -3,13 +3,21 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color: #2b333a;
-  background-color: #ffffff;
+  --text-color: #2b333a;
+  --background-color: #ffffff;
+  --heading-color: #181421;
+  --input-border-color: #ddd;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --navbar-shadow-color: rgba(0, 0, 0, 0.2);
+}
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+[data-theme="dark"] {
+  --text-color: #e6e6e6;
+  --background-color: #121212;
+  --heading-color: #ffffff;
+  --input-border-color: #444;
+  --shadow-color: rgba(255, 255, 255, 0.1);
+  --navbar-shadow-color: rgba(255, 255, 255, 0.2);
 }
 
 * {
@@ -28,7 +36,8 @@ body {
   height: 100%;
   align-items: center;
   padding: 0;
-  background-color: white;
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
 
 h1 {
@@ -37,21 +46,25 @@ h1 {
   font-family: 'New Rocker';
   max-width: 1200px;
   font-size: 2.5em;
-  color: #181421;
+  color: var(--heading-color);
   padding-left: 10px;
   padding-right: 10px;
+  margin-top: clamp(5rem, 30vh, 15rem);
+  font-size: clamp(3rem, 4vw, 10rem);
 }
 
 button {
-  background: none;
+  background: transparent;
+  background-color: transparent;
   border-radius: 50px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--shadow-color);
   padding: 12px;
   font-weight: bold;
-  backdrop-filter: blur(80px);
+  backdrop-filter: blur(50px);
   border: none;
   min-width: 100px;
+  color: var(--text-color);
 }
 
 button::before {
@@ -75,13 +88,20 @@ button::before {
   z-index: -1;
 }
 
+button:hover {
+  background: var(--shadow-color);
+}
+
 input {
   width: 100%;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   box-sizing: border-box;
+  background-color: transparent;
+  box-shadow: 0 4px 8px var(--shadow-color);
+  color: var(--text-color);
 }
 
 textarea {
@@ -89,16 +109,26 @@ textarea {
   height: 150px;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   box-sizing: border-box;
+  background-color: transparent;
+  backdrop-filter: blur(50px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  color: var(--text-color);
 }
 
 select {
   width: 100%;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border-color);
   border-radius: 8px;
   box-sizing: border-box;
+  backdrop-filter: blur(50px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+p {
+  margin-top: 25px;
 }

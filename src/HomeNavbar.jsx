@@ -43,13 +43,17 @@ const HomeNavbar = () => {
         }
     };
 
-    const handleHome = () => {
+    const handleLogin = () => {
         navigate('/home');
     };
 
-    const handleInfo = () => {
+    const handleHome = () => {
         navigate('/');
     };
+
+    const handleJoin = () => {
+        navigate('/join');
+    }
 
 // Helper: get the closest non-transparent background color of an element or its parents
 function getBackgroundColor(el) {
@@ -149,8 +153,23 @@ useEffect(() => {
             <div className="home_navbar">
                 <div className="navbar-top-row">
                     <div className="nav_content">
-                        <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>PUAC</h1>
+                        <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
                     </div>
+
+                    <h2
+                        className="theme-toggle"
+                        onClick={() => {
+                            const currentTheme = document.documentElement.getAttribute('data-theme');
+                            document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+
+                            setTimeout(() => {
+                                checkBackground();
+                            }, 50);
+                        }}
+                        
+                    >
+                        🌓
+                    </h2>
                     <div
                         id="nav-icon3"
                         className={menuOpen ? 'open' : ''}
@@ -169,8 +188,8 @@ useEffect(() => {
                     <p onClick={handleHome}>Calendar</p>
                     <p onClick={handleHome}>Competitions</p>
                     <p onClick={handleHome}>Contact</p>
-                    <p onClick={handleHome}>Join</p>
-                    <button onClick={handleHome}>Login</button>
+                    <p onClick={handleJoin}>Join</p>
+                    <button onClick={handleLogin}>Login</button>
                 </div>
             </div>
         </div>

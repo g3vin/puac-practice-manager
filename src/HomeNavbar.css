@@ -1,3 +1,4 @@
+@import './index.css';
 * {
   box-sizing: border-box;
 }
@@ -25,9 +26,9 @@
   display: flex;
   flex-direction: column;
   box-shadow:
-    /*inset 0 4px 8px rgba(255, 255, 255, 0.2),
-    inset 0 -4px 8px rgba(0, 0, 0, 0.15),*/
-    0 4px 20px rgba(0, 0, 0, 0.2);
+    /*inset 0 2px 4px rgba(255, 255, 255, 0.15),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1),*/
+    0 4px 20px var(--navbar-shadow-color);
   max-width: 1200px;
   border-radius: 25px;
   align-items: center;
@@ -109,11 +110,11 @@
     color: #c3c3c3;
 }
 
-/* When over light content, switch to black */
-.home-navbar-container.dark .home_navbar h1 {
+.home-navbar-container.dark .home_navbar h1, button {
   color: black;
   transition: color 0.2s ease;
 }
+
 .home-navbar-container.dark #nav-icon3 span {
   background: black;
   transition: background 0.2s ease;
