@@ -16,15 +16,6 @@ h2 {
     text-align: center;
 }
 
-.login-container input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-sizing: border-box;
-}
-
 .login-container label {
     display: block;
     margin-bottom: 8px;

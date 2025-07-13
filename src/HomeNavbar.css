@@ -112,9 +112,12 @@
 .navbar-expanded-links p:hover {
     color: #c3c3c3;
 }
-
+.home_navbar h1 {
+  transition: color 0.25s ease-in-out;
+}
 .home-navbar-container.dark .home_navbar h1, button {
   color: black;
+  transition: color 0.5s ease-in-out;
 }
 
 .home-navbar-container.dark #nav-icon3 span {
