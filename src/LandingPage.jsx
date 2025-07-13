@@ -7,9 +7,70 @@ function LandingPage() {
 
   return (
     <>
-        <div className='landing-page'>
-        <p>Under Construction!</p>
+      <HomeNavbar />
+      <div className="landing-page">
+        <h1>Purdue Archery</h1>
+        <div className="content-section">
+          <h2>About Us</h2>
+          <p>
+            Purdue Archery Club is dedicated to fostering a community of archers
+            on campus. Whether you're a beginner or an NCAA competitor, join us!
+          </p>
+
+        <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
         </div>
+                <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+        <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+                <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+                <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+                <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+                <div className="content-section">
+          <h2>Our Equipment</h2>
+          <p>
+            We provide barebows, recurve, and compound setups. All members get
+            access to rental gear and coaching sessions.
+          </p>
+        </div>
+
+        <div className="content-section">
+          <button onClick={() => navigate('/join')}>Join Now</button>
+        </div>
+      </div>
     </>
   );
 }
