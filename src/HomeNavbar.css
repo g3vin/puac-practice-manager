@@ -26,15 +26,18 @@
   display: flex;
   flex-direction: column;
   box-shadow:
-    /*inset 0 2px 4px rgba(255, 255, 255, 0.15),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.1),*/
-    0 4px 20px var(--navbar-shadow-color);
+    inset 0 4px 8px rgba(255, 255, 255, 0.15),
+    inset 0 -4px 8px rgba(0, 0, 0, 0.2),
+    0 5px 15px var(--navbar-shadow-color);
   max-width: 1200px;
-  border-radius: 25px;
+  border-radius: 28px;
   align-items: center;
   justify-content: center;
   transition: max-height 0.4s ease;
   flex-shrink: 0;
+  border-width: 2px;
+  border-color: var(--text-color);
+  border-style: solid;
 }
 
 .home_navbar h1 {
@@ -112,12 +115,10 @@
 
 .home-navbar-container.dark .home_navbar h1, button {
   color: black;
-  transition: color 0.2s ease;
 }
 
 .home-navbar-container.dark #nav-icon3 span {
   background: black;
-  transition: background 0.2s ease;
 }
 
 .home-navbar-container.dark .navbar-expanded-links p {
@@ -147,7 +148,7 @@
 #nav-icon3 span{
     display: block;
     position: absolute;
-    height: 4px;
+    height: 2px;
     width: 100%;
     background: white;
     border-radius: 50px;

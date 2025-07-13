@@ -6,7 +6,7 @@ const Join = () => {
     <>
     <HomeNavbar />
     <div className="join-page">
-      <h1>Join PUAC</h1>
+      <h1>Join</h1>
     </div>
     </>
   );

@@ -17,7 +17,7 @@
   --heading-color: #ffffff;
   --input-border-color: #444;
   --shadow-color: rgba(255, 255, 255, 0.1);
-  --navbar-shadow-color: rgba(255, 255, 255, 0.2);
+  --navbar-shadow-color: rgba(178, 178, 178, 0.2);
 }
 
 * {
@@ -71,7 +71,7 @@ button::before {
   content: '';
   position: absolute;
   inset: 0;
-  padding: 3px;
+  padding: 2px;
   background: linear-gradient(
     to right,
     #fad419,
