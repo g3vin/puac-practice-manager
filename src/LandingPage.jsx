@@ -16,7 +16,6 @@ function LandingPage() {
             Purdue Archery Club is dedicated to fostering a community of archers
             on campus. Whether you're a beginner or an NCAA competitor, join us!
           </p>
-        </div>
 
         <div className="content-section">
           <h2>Our Equipment</h2>
