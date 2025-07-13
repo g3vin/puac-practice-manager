@@ -12,17 +12,30 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   display: flex;
   min-width: 300px;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  padding: 0;
+  background-color: white;
 }
 
 h1 {
   line-height: 1.1;
   text-align: center;
   font-family: 'New Rocker';
-  max-width: 1000px;
+  max-width: 1200px;
   font-size: 2.5em;
   color: #181421;
   padding-left: 10px;
@@ -36,8 +49,9 @@ button {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 12px;
   font-weight: bold;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(80px);
   border: none;
+  min-width: 100px;
 }
 
 button::before {
@@ -49,8 +63,8 @@ button::before {
     to right,
     #fad419,
     #c93855,
-    #0689bd,
-    #181421
+    #0689bd
+    /*#181422*/
   );
   border-radius: 50px;
   -webkit-mask: 

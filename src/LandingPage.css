@@ -1,9 +1,23 @@
 .landing-page {
-  text-align: center;
+  position: relative;
+  width: 100%;
 }
 
 .landing-page h1 {
-  font-size: 7em;
-  font-family: 'New Rocker';
-  color: #181421;
+  margin-top: clamp(5rem, 30vh, 15rem);
+  margin-bottom: clamp(2.5rem, 15vh, 8rem);
+  color: rgb(0, 0, 0);
+  font-size: clamp(5rem, 10vw, 10rem);
+  font-family: 'New Rocker', cursive;
+}
+
+.content-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.content-section p {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
 }

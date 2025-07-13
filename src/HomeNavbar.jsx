@@ -10,7 +10,12 @@ import homeIcon from './assets/homeicon.png';
 const HomeNavbar = () => {
     const { userId, hasLoggedIn, loading } = useUser();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -23,7 +28,6 @@ const HomeNavbar = () => {
         };
     }, []);
 
-    // Watch for changes in `hasLoggedIn` to immediately reflect login status
     useEffect(() => {
         if (userId && hasLoggedIn) {
             console.log("User is logged in, updating UI");
@@ -44,9 +48,97 @@ const HomeNavbar = () => {
     };
 
     const handleInfo = () => {
-
-            navigate('/');
+        navigate('/');
     };
+
+// Helper: get the closest non-transparent background color of an element or its parents
+function getBackgroundColor(el) {
+  if (!el || el === document.documentElement) return null;
+  
+  const bg = window.getComputedStyle(el).backgroundColor;
+  
+  // Check for rgba with alpha less than 1 (transparent)
+  if (bg.startsWith('rgba')) {
+    const alpha = parseFloat(bg.split(',')[3]);
+    if (alpha === 0) {
+      // Transparent, check parent recursively
+      return getBackgroundColor(el.parentElement);
+    }
+  }
+  
+  if (bg === 'transparent' || bg === 'inherit') {
+    return getBackgroundColor(el.parentElement);
+  }
+  
+  return bg;
+}
+
+const checkBackground = () => {
+  const navbar = document.querySelector('.home-navbar-container');
+  if (!navbar) return;
+
+  const rect = navbar.getBoundingClientRect();
+
+  navbar.style.pointerEvents = 'none';
+
+  const samplePoints = [
+    [rect.left + rect.width * 0.25, rect.top + rect.height / 2], 
+    [rect.left + rect.width * 0.5, rect.top + rect.height / 2],
+    [rect.left + rect.width * 0.75, rect.top + rect.height / 2],
+    [rect.left + rect.width * 0.5, rect.top + rect.height * 0.25],
+    [rect.left + rect.width * 0.5, rect.top + rect.height * 0.75]
+  ];
+
+  let totalBrightness = 0;
+  let validSamples = 0;
+
+  for (const [x, y] of samplePoints) {
+    const el = document.elementFromPoint(x, y);
+    if (!el) continue;
+
+    const bg = getBackgroundColor(el);
+    if (!bg) continue;
+
+    const match = bg.match(/\d+/g);
+    if (!match) continue;
+
+    const [r, g, b] = match.map(Number);
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+    totalBrightness += brightness;
+    validSamples++;
+  }
+
+  navbar.style.pointerEvents = '';
+
+  if (validSamples === 0) return;
+
+  const avgBrightness = totalBrightness / validSamples;
+  const isLight = avgBrightness > 160;
+
+  navbar.classList.toggle('dark', isLight);
+};
+
+
+useEffect(() => {
+    let timeout;
+
+    const handleScrollOrResize = () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            checkBackground();
+        }, 100); // Adjust debounce time if needed
+    };
+
+    window.addEventListener('scroll', handleScrollOrResize);
+    window.addEventListener('resize', handleScrollOrResize);
+    checkBackground(); // Run once initially
+
+    return () => {
+        window.removeEventListener('scroll', handleScrollOrResize);
+        window.removeEventListener('resize', handleScrollOrResize);
+    };
+}, []);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -55,20 +147,30 @@ const HomeNavbar = () => {
     return (
         <div className='home-navbar-container'>
             <div className="home_navbar">
-                {userId && hasLoggedIn && (
-                    <button className="logout-button" onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                        <img src={logoutIcon} alt="Logout" />
-                    </button>
-                )}
-                {userId && hasLoggedIn && (
-                    <button className="home-button" onClick={handleHome} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                        <img src={homeIcon} alt="Home" />
-                    </button>
-                )}
-                <div className="nav_content">
-                    <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>
-                        PUAC
-                    </h1>
+                <div className="navbar-top-row">
+                    <div className="nav_content">
+                        <h1 onClick={handleInfo} style={{ cursor: 'pointer' }}>PUAC</h1>
+                    </div>
+                    <div
+                        id="nav-icon3"
+                        className={menuOpen ? 'open' : ''}
+                        onClick={toggleMenu}
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <div className={`navbar-expanded-links ${menuOpen ? 'show' : ''}`}>
+                    <p onClick={handleHome}>About Archery</p>
+                    <p onClick={handleHome}>Our Range</p>
+                    <p onClick={handleHome}>Our Team</p>
+                    <p onClick={handleHome}>Calendar</p>
+                    <p onClick={handleHome}>Competitions</p>
+                    <p onClick={handleHome}>Contact</p>
+                    <p onClick={handleHome}>Join</p>
+                    <button onClick={handleHome}>Login</button>
                 </div>
             </div>
         </div>
