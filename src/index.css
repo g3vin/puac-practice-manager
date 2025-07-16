@@ -1,21 +1,22 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Mada', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   --text-color: #2b333a;
   --background-color: #ffffff;
   --heading-color: #181421;
-  --input-border-color: #ddd;
+  --border-color: #b8b8b8;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --navbar-shadow-color: rgba(0, 0, 0, 0.2);
+
 }
 
 [data-theme="dark"] {
   --text-color: #e6e6e6;
   --background-color: #121212;
   --heading-color: #ffffff;
-  --input-border-color: #444;
+  --border-color: #444;
   --shadow-color: rgba(255, 255, 255, 0.1);
   --navbar-shadow-color: rgba(178, 178, 178, 0.2);
 }
@@ -41,9 +42,10 @@ body {
 }
 
 h1 {
+  /* outfit, epilogue */
   line-height: 1.1;
   text-align: center;
-  font-family: 'New Rocker';
+  font-weight: 800;
   max-width: 1200px;
   font-size: 2.5em;
   color: var(--heading-color);
@@ -60,8 +62,7 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 8px var(--shadow-color);
   padding: 12px;
-  font-weight: bold;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(30px);
   border: none;
   min-width: 100px;
   color: var(--text-color);
@@ -96,7 +97,7 @@ input {
   width: 100%;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-sizing: border-box;
   background-color: transparent;
@@ -109,11 +110,11 @@ textarea {
   height: 150px;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-sizing: border-box;
   background-color: transparent;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(30px);
   box-shadow: 0 4px 8px var(--shadow-color);
   color: var(--text-color);
 }
@@ -122,13 +123,14 @@ select {
   width: 100%;
   padding: 12px;
   margin-bottom: 16px;
-  border: 1px solid var(--input-border-color);
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-sizing: border-box;
-  backdrop-filter: blur(50px);
+  backdrop-filter: blur(30px);
   box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 p {
   margin-top: 25px;
+  font-weight: 350;
 }

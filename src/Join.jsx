@@ -1,5 +1,5 @@
-import React from 'react';
 import HomeNavbar from './HomeNavbar';
+import './Join.css';
 
 const Join = () => {
   return (

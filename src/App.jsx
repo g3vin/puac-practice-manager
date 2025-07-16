@@ -1,15 +1,26 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { UserProvider, useUser } from './UserContext';
-import Login from './Login';
+
 import LockedRoute from './LockedRoute';
+
+import LandingPage from './LandingPage';
+
+// website pages
+import AboutArchery from './AboutArchery';
+import OurRange from './OurRange';
+import OurTeam from './OurTeam';
+import Calender from './Calender';
+import Competitions from './Competitions';
+import Contact from './Contact';
+import Join from './Join';
+import Login from './Login';
+
+// app pages
 import Home from './Home';
 import Welcome from './Welcome';
 import Info from './Info';
 import ManageMembers from './ManageMembers';
 import ManagePractices from './ManagePractices';
-import LandingPage from './LandingPage';
-import Join from './Join';
 
 const protectedRoutes = [
   { path: '/home', element: <Home /> },
@@ -35,8 +46,14 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/about-archery" element={<AboutArchery />} />
+      <Route path="/our-range" element={<OurRange />} />
+      <Route path="/our-team" element={<OurTeam />} />
+      <Route path="/calender" element={<Calender />} />
+      <Route path="/competitions" element={<Competitions />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="/join" element={<Join />} />
+      <Route path="/login" element={<Login />} />
       <Route
         path="/welcome"
         element={isAuthenticated ? <Welcome /> : <Navigate to="/login" />}

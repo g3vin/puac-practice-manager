@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from './UserContext';
 import { signOut } from 'firebase/auth';
 import { auth } from './firebase';
 import './HomeNavbar.css';
 import { useNavigate } from 'react-router-dom';
+
 import logoutIcon from './assets/logoutIcon.png';
 import homeIcon from './assets/homeicon.png';
 
 const HomeNavbar = () => {
-    const { userId, hasLoggedIn, loading } = useUser();
+    const { userId, hasLoggedIn} = useUser();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const isWideScreen = windowWidth > 1050;
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
@@ -43,22 +45,46 @@ const HomeNavbar = () => {
         }
     };
 
-    const handleLogin = () => {
-        navigate('/home');
-    };
-
     const handleHome = () => {
         navigate('/');
     };
+
+    const handleAboutArchery = () => {
+        navigate('/about-archery');
+    }
+
+    const handleOurRange = () => {
+        navigate('/our-range');
+    }
+
+    const handleOurTeam = () => {
+        navigate('/our-team');
+    }
+
+    const handleCalender = () => {
+        navigate('/calender');
+    }
+
+    const handleCompetitions = () => {
+        navigate('/competitions');
+    }
+
+    const handleContact = () => {
+        navigate('/contact');
+    }
 
     const handleJoin = () => {
         navigate('/join');
     }
 
-// Helper: get the closest non-transparent background color of an element or its parents
-function getBackgroundColor(el) {
-  if (!el || el === document.documentElement) return null;
-  
+    const handleLogin = () => {
+        navigate('/home');
+    };
+
+    // Helper: get the closest non-transparent background color of an element or its parents
+    function getBackgroundColor(el) {
+        if (!el || el === document.documentElement) return null;
+
   const bg = window.getComputedStyle(el).backgroundColor;
   
   // Check for rgba with alpha less than 1 (transparent)
@@ -123,7 +149,6 @@ const checkBackground = () => {
   navbar.classList.toggle('dark', isLight);
 };
 
-
 useEffect(() => {
     let timeout;
 
@@ -144,55 +169,75 @@ useEffect(() => {
     };
 }, []);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+useEffect(() => {
+  const storedTheme = localStorage.getItem('theme');
+  if (storedTheme) {
+    document.documentElement.setAttribute('data-theme', storedTheme);
+    setTimeout(() => checkBackground(), 50);
+  }
+}, []);
 
     return (
         <div className='home-navbar-container'>
-            <div className="home_navbar">
-                <div className="navbar-top-row">
-                    <div className="nav_content">
-                        <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
-                    </div>
-
-                    <h2
-                        className="theme-toggle"
-                        onClick={() => {
-                            const currentTheme = document.documentElement.getAttribute('data-theme');
-                            document.documentElement.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
-
-                            setTimeout(() => {
-                                checkBackground();
-                            }, 50);
-                        }}
-                        
-                    >
-                        🌓
-                    </h2>
-                    <div
-                        id="nav-icon3"
-                        className={menuOpen ? 'open' : ''}
-                        onClick={toggleMenu}
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-                <div className={`navbar-expanded-links ${menuOpen ? 'show' : ''}`}>
-                    <p onClick={handleHome}>About Archery</p>
-                    <p onClick={handleHome}>Our Range</p>
-                    <p onClick={handleHome}>Our Team</p>
-                    <p onClick={handleHome}>Calendar</p>
-                    <p onClick={handleHome}>Competitions</p>
-                    <p onClick={handleHome}>Contact</p>
-                    <p onClick={handleJoin}>Join</p>
-                    <button onClick={handleLogin}>Login</button>
-                </div>
+  <div className="home_navbar">
+    <div className="navbar-top-row">
+      <div className="nav_content">
+        <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
+            <h2
+            className="theme-toggle"
+            onClick={() => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                setTimeout(() => checkBackground(), 50);
+            }}
+            >
+            🌓
+            </h2>
+        {isWideScreen && (
+            <div className="navbar-inline-links">
+            <p onClick={handleAboutArchery}>About Archery</p>
+            <p onClick={handleOurRange}>Our Range</p>
+            <p onClick={handleOurTeam}>Our Team</p>
+            <p onClick={handleCalender}>Calendar</p>
+            <p onClick={handleCompetitions}>Competitions</p>
+            <p onClick={handleContact}>Contact</p>
+            <p onClick={handleJoin}>Join</p>
+            <button onClick={handleLogin}>Login</button>
             </div>
+        )}
         </div>
+
+      {!isWideScreen && (
+        <div
+          id="nav-icon3"
+          className={menuOpen ? 'open' : ''}
+          onClick={toggleMenu}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      )}
+    </div>
+
+    {!isWideScreen && (
+      <div className={`navbar-expanded-links ${menuOpen ? 'show' : ''}`}>
+        <p onClick={handleAboutArchery}>About Archery</p>
+        <p onClick={handleOurRange}>Our Range</p>
+        <p onClick={handleOurTeam}>Our Team</p>
+        <p onClick={handleCalender}>Calendar</p>
+        <p onClick={handleCompetitions}>Competitions</p>
+        <p onClick={handleContact}>Contact</p>
+        <p onClick={handleJoin}>Join</p>
+        <button onClick={handleLogin}>Login</button>
+      </div>
+    )}
+  </div>
+</div>
+
     );
 };
 
