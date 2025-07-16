@@ -183,7 +183,20 @@ useEffect(() => {
     <div className="navbar-top-row">
       <div className="nav_content">
         <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
-            <h2
+        {isWideScreen && (
+            <div className="navbar-inline-links">
+            <p onClick={handleAboutArchery}>About Archery</p>
+            <p onClick={handleOurRange}>Our Range</p>
+            <p onClick={handleOurTeam}>Our Team</p>
+            <p onClick={handleCalendar}>Calendar</p>
+            <p onClick={handleCompetitions}>Competitions</p>
+            <p onClick={handleContact}>Contact</p>
+            <p onClick={handleJoin}>Join</p>
+            </div>
+        )}
+        </div>
+
+                    <h2
             className="theme-toggle"
             onClick={() => {
                 const currentTheme = document.documentElement.getAttribute('data-theme');
@@ -195,19 +208,10 @@ useEffect(() => {
             >
             🌓
             </h2>
-        {isWideScreen && (
-            <div className="navbar-inline-links">
-            <p onClick={handleAboutArchery}>About Archery</p>
-            <p onClick={handleOurRange}>Our Range</p>
-            <p onClick={handleOurTeam}>Our Team</p>
-            <p onClick={handleCalendar}>Calendar</p>
-            <p onClick={handleCompetitions}>Competitions</p>
-            <p onClick={handleContact}>Contact</p>
-            <p onClick={handleJoin}>Join</p>
-            <button onClick={handleLogin}>Login</button>
-            </div>
-        )}
-        </div>
+
+            {isWideScreen && (
+                <button onClick={handleLogin}>Login</button>
+            )}
 
       {!isWideScreen && (
         <div

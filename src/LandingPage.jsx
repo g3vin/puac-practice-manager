@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import "./LandingPage.css";
 import HomeNavbar from './HomeNavbar';
+import Footer from './Footer';
+import Gallery from './Gallery';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -11,12 +13,11 @@ function LandingPage() {
       <div className="landing-page">
         <h1>Purdue Archery</h1>
         <div className="content-section">
-          <h2>About Us</h2>
           <p>
-            Purdue Archery Club is dedicated to fostering a community of archers
-            on campus. Whether you're a beginner or an NCAA competitor, join us!
+            Purdue University Archery Club (PUAC) is a student-run organization focused on archery development at Purdue University. We welcome all skill levels, from brand-new shooters to tournament winning archers!
           </p>
         </div>
+        <Gallery />
         <div className="content-section">
           <h2>Our Equipment</h2>
           <p>
@@ -70,6 +71,7 @@ function LandingPage() {
           <button onClick={() => navigate('/join')}>Join Now</button>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -1,0 +1,28 @@
+@import 'index.css';
+
+.gallery-container {
+  column-count: 3;
+  column-gap: 16px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-image {
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  break-inside: avoid;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: transform 0.2s ease;
+}
+
+.gallery-image:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 700px) {
+  .gallery-container {
+    column-count: 2;
+  }
+}
