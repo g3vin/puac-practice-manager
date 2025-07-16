@@ -3,9 +3,9 @@ import './Gallery.css';
 import img1 from './Gallery/home_gallery_1.jpeg';
 import img2 from './Gallery/home_gallery_2.jpg';
 import img3 from './Gallery/home_gallery_3.jpg';
-import img4 from './Gallery/home_gallery_4.JPG';
-import img5 from './Gallery/home_gallery_5.JPG';
-import img6 from './Gallery/home_gallery_6.JPG';
+import img4 from './Gallery/home_gallery_4.jpg';
+import img5 from './Gallery/home_gallery_5.jpg';
+import img6 from './Gallery/home_gallery_6.jpg';
 // Add more imports as needed
 
 const images = [img1, img2, img3, img4, img5, img6];
