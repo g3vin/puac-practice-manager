@@ -6,9 +6,10 @@ import img3 from './Gallery/home_gallery_3.jpg';
 import img4 from './Gallery/home_gallery_4.jpg';
 import img5 from './Gallery/home_gallery_5.jpg';
 import img6 from './Gallery/home_gallery_6.jpg';
+import img7 from './Gallery/home_gallery_7.jpg';
 // Add more imports as needed
 
-const images = [img1, img2, img3, img4, img5, img6];
+const images = [img7, img1, img3, img4, img5, img6, img2];
 
 const Gallery = () => {
   return (

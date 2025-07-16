@@ -144,7 +144,7 @@ const checkBackground = () => {
   if (validSamples === 0) return;
 
   const avgBrightness = totalBrightness / validSamples;
-  const isLight = avgBrightness > 160;
+  const isLight = avgBrightness > 255;
 
   navbar.classList.toggle('dark', isLight);
 };
