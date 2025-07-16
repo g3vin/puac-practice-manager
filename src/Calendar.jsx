@@ -1,5 +1,6 @@
 import HomeNavbar from './HomeNavbar';
 import './Calendar.css';
+import Footer from './Footer';
 
 const Calendar = () => {
   return (
@@ -18,6 +19,7 @@ const Calendar = () => {
           ></iframe>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

@@ -1,3 +1,4 @@
+import Footer from './Footer';
 import HomeNavbar from './HomeNavbar';
 import './OurRange.css';
 
@@ -8,6 +9,7 @@ const OurRange = () => {
       <div className="our-range-page">
         <h1>Our Range</h1>
       </div>
+      <Footer />
     </>
   );
 };
