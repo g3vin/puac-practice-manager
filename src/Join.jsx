@@ -1,3 +1,4 @@
+import Footer from './Footer';
 import HomeNavbar from './HomeNavbar';
 import './Join.css';
 
@@ -8,6 +9,7 @@ const Join = () => {
     <div className="join-page">
       <h1>Join</h1>
     </div>
+    <Footer />
     </>
   );
 };
