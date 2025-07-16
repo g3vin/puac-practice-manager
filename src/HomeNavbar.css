@@ -119,11 +119,12 @@
   flex-direction: row;
   gap: 20px;
   align-items: center;
-  justify-content: right;
+  justify-content: left;
   width: 100%;
   color: white;
   font-size: 1.2rem;
   flex-wrap: wrap;
+  padding-left: 20px;
 }
 
 .navbar-inline-links p {
@@ -171,7 +172,11 @@
 }
 
 .home-navbar-container.dark .navbar-expanded-links p:hover {
-    color: rgb(72, 72, 72);
+    color: #ccc;
+}
+
+.home-navbar-container.dark .navbar-inline-links p:hover {
+  color: #ccc;
 }
 
 
