@@ -61,8 +61,8 @@ const HomeNavbar = () => {
         navigate('/our-team');
     }
 
-    const handleCalender = () => {
-        navigate('/calender');
+    const handleCalendar = () => {
+        navigate('/calendar');
     }
 
     const handleCompetitions = () => {
@@ -200,7 +200,7 @@ useEffect(() => {
             <p onClick={handleAboutArchery}>About Archery</p>
             <p onClick={handleOurRange}>Our Range</p>
             <p onClick={handleOurTeam}>Our Team</p>
-            <p onClick={handleCalender}>Calendar</p>
+            <p onClick={handleCalendar}>Calendar</p>
             <p onClick={handleCompetitions}>Competitions</p>
             <p onClick={handleContact}>Contact</p>
             <p onClick={handleJoin}>Join</p>
@@ -228,7 +228,7 @@ useEffect(() => {
         <p onClick={handleAboutArchery}>About Archery</p>
         <p onClick={handleOurRange}>Our Range</p>
         <p onClick={handleOurTeam}>Our Team</p>
-        <p onClick={handleCalender}>Calendar</p>
+        <p onClick={handleCalendar}>Calendar</p>
         <p onClick={handleCompetitions}>Competitions</p>
         <p onClick={handleContact}>Contact</p>
         <p onClick={handleJoin}>Join</p>

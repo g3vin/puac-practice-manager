@@ -9,7 +9,7 @@ import LandingPage from './LandingPage';
 import AboutArchery from './AboutArchery';
 import OurRange from './OurRange';
 import OurTeam from './OurTeam';
-import Calender from './Calender';
+import Calendar from './Calendar';
 import Competitions from './Competitions';
 import Contact from './Contact';
 import Join from './Join';
@@ -49,7 +49,7 @@ function AppRoutes() {
       <Route path="/about-archery" element={<AboutArchery />} />
       <Route path="/our-range" element={<OurRange />} />
       <Route path="/our-team" element={<OurTeam />} />
-      <Route path="/calender" element={<Calender />} />
+      <Route path="/calendar" element={<Calendar />} />
       <Route path="/competitions" element={<Competitions />} />
       <Route path="/contact" element={<Contact />} />
       <Route path="/join" element={<Join />} />
