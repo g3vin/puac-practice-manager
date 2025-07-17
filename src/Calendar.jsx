@@ -5,7 +5,6 @@ import Footer from './Footer';
 const Calendar = () => {
   return (
     <>
-      <HomeNavbar />
       <div className="calendar-page">
         <h1>Calendar</h1>
         <div className="calendar-container">

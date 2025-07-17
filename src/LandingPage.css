@@ -1,15 +1,58 @@
+
+
 .landing-page {
-  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
   width: 100%;
+  position: relative;
 }
 
-.landing-page h1 {
-  margin-top: clamp(5rem, 30vh, 15rem);
-  margin-bottom: clamp(2.5rem, 15vh, 8rem);
+.landing-page.unlocked {
+  height: auto;
+  overflow: auto;
+}
+
+.landing-page.locked {
+  overflow: hidden;
+  touch-action: none; /* disable touch scroll on mobile */
+}
+
+.hero-title {
+  position: relative;    /* ← make this the positioning parent */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Arrow container now matches the header’s height */
+.arrow-container {
+  position: absolute;
+  left: 0;
+  top: 0;                      /* stick to top of .hero-title */
+  width: 100%;
+  height: 100%;                /* full height of the header */
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  align-items: center;         /* vertically center arrow in header */
+  justify-content: flex-start; /* start on the left */
+}
+
+.hero-title h1 {
+  transition: transform 0.1s ease-out;
+  will-change: transform;
   font-size: clamp(5rem, 10vw, 8rem);
   font-family: 'New Rocker', cursive;
+  transform-origin: center center;
+  margin: 0;
+  position: relative;
+  z-index: 2;
+  padding: 0;
 }
 
+/* Other content */
 .content-section {
   padding: 4rem 2rem;
   text-align: center;
@@ -18,5 +61,39 @@
 .content-section p {
   max-width: 800px;
   margin: 0 auto;
-  text-align: center;
 }
+
+.arrow {
+  height: 20px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  transform: translateX(0);
+  transition: transform 0.05s ease-out;
+}
+
+.arrow-shaft {
+  flex-grow: 1;
+  height: 4px;
+  background: black;
+}
+
+.arrow-head {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 20px solid black;
+  margin-left: 4px;
+}
+
+.arrow-fletching {
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 12px solid black;
+  margin-right: 4px;
+}
+

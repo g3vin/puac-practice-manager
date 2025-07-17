@@ -72,7 +72,6 @@ function Welcome() {
 
   return (
     <div className="container">
-      <HomeNavbar />
       {!showForm && <h1>Welcome to the Purdue University Archery Club!</h1>}
       {!showForm && <p>To get to know you better, please answer a couple short questions. Your responses can always be changed later!</p>}
       {!showForm && (

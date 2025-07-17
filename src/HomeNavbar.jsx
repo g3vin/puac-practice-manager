@@ -9,15 +9,32 @@ import logoutIcon from './assets/logoutIcon.png';
 import homeIcon from './assets/homeicon.png';
 
 const HomeNavbar = () => {
-    const { userId, hasLoggedIn} = useUser();
+    const { userId, hasLoggedIn } = useUser();
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
     const isWideScreen = windowWidth > 1050;
+    const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
+    const [visible, setVisible] = useState(true);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
+
+    useEffect(() => {
+        const content = document.getElementById('main-content');
+        if (content) {
+            content.classList.toggle('blur', menuOpen);
+        }
+
+        if (menuOpen) {
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+        } else {
+            document.body.style.position = '';
+            document.body.style.width = '';
+        }
+    }, [menuOpen]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -81,166 +98,99 @@ const HomeNavbar = () => {
         navigate('/home');
     };
 
-    // Helper: get the closest non-transparent background color of an element or its parents
-    function getBackgroundColor(el) {
-        if (!el || el === document.documentElement) return null;
+    useEffect(() => {
+        const content = document.getElementById('main-content');
+        if (content) {
+            content.classList.toggle('blur', menuOpen);
+        }
+    }, [menuOpen]);
 
-  const bg = window.getComputedStyle(el).backgroundColor;
-  
-  // Check for rgba with alpha less than 1 (transparent)
-  if (bg.startsWith('rgba')) {
-    const alpha = parseFloat(bg.split(',')[3]);
-    if (alpha === 0) {
-      // Transparent, check parent recursively
-      return getBackgroundColor(el.parentElement);
-    }
-  }
-  
-  if (bg === 'transparent' || bg === 'inherit') {
-    return getBackgroundColor(el.parentElement);
-  }
-  
-  return bg;
-}
 
-const checkBackground = () => {
-  const navbar = document.querySelector('.home-navbar-container');
-  if (!navbar) return;
+    useEffect(() => {
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+            document.documentElement.setAttribute('data-theme', storedTheme);
+        }
+    }, []);
 
-  const rect = navbar.getBoundingClientRect();
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollPos = window.scrollY;
+            const isVisible = prevScrollPos > currentScrollPos || currentScrollPos < 10;
+            setVisible(isVisible);
+            setPrevScrollPos(currentScrollPos);
+        };
 
-  navbar.style.pointerEvents = 'none';
+        window.addEventListener("scroll", handleScroll);
 
-  const samplePoints = [
-    [rect.left + rect.width * 0.25, rect.top + rect.height / 2], 
-    [rect.left + rect.width * 0.5, rect.top + rect.height / 2],
-    [rect.left + rect.width * 0.75, rect.top + rect.height / 2],
-    [rect.left + rect.width * 0.5, rect.top + rect.height * 0.25],
-    [rect.left + rect.width * 0.5, rect.top + rect.height * 0.75]
-  ];
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [prevScrollPos]);
 
-  let totalBrightness = 0;
-  let validSamples = 0;
-
-  for (const [x, y] of samplePoints) {
-    const el = document.elementFromPoint(x, y);
-    if (!el) continue;
-
-    const bg = getBackgroundColor(el);
-    if (!bg) continue;
-
-    const match = bg.match(/\d+/g);
-    if (!match) continue;
-
-    const [r, g, b] = match.map(Number);
-    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-
-    totalBrightness += brightness;
-    validSamples++;
-  }
-
-  navbar.style.pointerEvents = '';
-
-  if (validSamples === 0) return;
-
-  const avgBrightness = totalBrightness / validSamples;
-  const isLight = avgBrightness > 255;
-
-  navbar.classList.toggle('dark', isLight);
-};
-
-useEffect(() => {
-    let timeout;
-
-    const handleScrollOrResize = () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            checkBackground();
-        }, 100); // Adjust debounce time if needed
-    };
-
-    window.addEventListener('scroll', handleScrollOrResize);
-    window.addEventListener('resize', handleScrollOrResize);
-    checkBackground(); // Run once initially
-
-    return () => {
-        window.removeEventListener('scroll', handleScrollOrResize);
-        window.removeEventListener('resize', handleScrollOrResize);
-    };
-}, []);
-
-useEffect(() => {
-  const storedTheme = localStorage.getItem('theme');
-  if (storedTheme) {
-    document.documentElement.setAttribute('data-theme', storedTheme);
-    setTimeout(() => checkBackground(), 50);
-  }
-}, []);
 
     return (
-        <div className='home-navbar-container'>
-  <div className="home_navbar">
-    <div className="navbar-top-row">
-      <div className="nav_content">
-        <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
-        {isWideScreen && (
-            <div className="navbar-inline-links">
-            <p onClick={handleAboutArchery}>About Archery</p>
-            <p onClick={handleOurRange}>Our Range</p>
-            <p onClick={handleOurTeam}>Our Team</p>
-            <p onClick={handleCalendar}>Calendar</p>
-            <p onClick={handleCompetitions}>Competitions</p>
-            <p onClick={handleContact}>Contact</p>
-            <p onClick={handleJoin}>Join</p>
-            </div>
-        )}
-        </div>
+        <div className={`home-navbar-container ${!visible ? 'navbar-hidden' : ''}`}>
+            <div className="home_navbar">
+                <div className="navbar-top-row">
+                    {!isWideScreen && (<p onClick={handleLogin} style={{margin:0, paddingRight:20, paddingLeft:10}}>Login</p>)}
+                    <div className="nav_content">
+                        <h1 onClick={handleHome} style={{ cursor: 'pointer' }}>PUAC</h1>
+                        {isWideScreen && (
+                            <div className="navbar-inline-links">
+                                <p onClick={handleAboutArchery}>About Archery</p>
+                                <p onClick={handleOurRange}>Our Range</p>
+                                <p onClick={handleOurTeam}>Our Team</p>
+                                <p onClick={handleCalendar}>Calendar</p>
+                                <p onClick={handleCompetitions}>Competitions</p>
+                                <p onClick={handleContact}>Contact</p>
+                                <p onClick={handleJoin}>Join</p>
+                            </div>
+                        )}
+                    </div>
 
                     <h2
-            className="theme-toggle"
-            onClick={() => {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                localStorage.setItem('theme', newTheme);
-                setTimeout(() => checkBackground(), 50);
-            }}
-            >
-            🌓
-            </h2>
+                        className="theme-toggle"
+                        onClick={() => {
+                            const currentTheme = document.documentElement.getAttribute('data-theme');
+                            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                            document.documentElement.setAttribute('data-theme', newTheme);
+                            localStorage.setItem('theme', newTheme);
+                            setTimeout(() => checkBackground(), 50);
+                        }}
+                    >
+                        🌓
+                    </h2>
 
-            {isWideScreen && (
-                <button onClick={handleLogin}>Login</button>
-            )}
+                    {isWideScreen && (
+                        <p onClick={handleLogin} style={{marginTop:0, marginBottom:0, cursor: 'pointer'}}>Login</p>
+                    )}
 
-      {!isWideScreen && (
-        <div
-          id="nav-icon3"
-          className={menuOpen ? 'open' : ''}
-          onClick={toggleMenu}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
+                    {!isWideScreen && (
+                        <div
+                            id="nav-icon3"
+                            className={menuOpen ? 'open' : ''}
+                            onClick={toggleMenu}
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    )}
+                </div>
+
+                {!isWideScreen && (
+                    <div className={`navbar-expanded-links ${menuOpen ? 'show' : ''}`}>
+                        <p onClick={handleAboutArchery}>About Archery</p>
+                        <p onClick={handleOurRange}>Our Range</p>
+                        <p onClick={handleOurTeam}>Our Team</p>
+                        <p onClick={handleCalendar}>Calendar</p>
+                        <p onClick={handleCompetitions}>Competitions</p>
+                        <p onClick={handleContact}>Contact</p>
+                        <p onClick={handleJoin}>Join</p>
+                    </div>
+                )}
+            </div>
         </div>
-      )}
-    </div>
-
-    {!isWideScreen && (
-      <div className={`navbar-expanded-links ${menuOpen ? 'show' : ''}`}>
-        <p onClick={handleAboutArchery}>About Archery</p>
-        <p onClick={handleOurRange}>Our Range</p>
-        <p onClick={handleOurTeam}>Our Team</p>
-        <p onClick={handleCalendar}>Calendar</p>
-        <p onClick={handleCompetitions}>Competitions</p>
-        <p onClick={handleContact}>Contact</p>
-        <p onClick={handleJoin}>Join</p>
-        <button onClick={handleLogin}>Login</button>
-      </div>
-    )}
-  </div>
-</div>
 
     );
 };

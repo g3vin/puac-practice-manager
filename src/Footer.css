@@ -1,5 +1,7 @@
+@import './index.css';
+
 .site-footer {
-  color: var(--footer-text, #f0f0f0);
+  color: var(--text-color);
   padding: 20px 0;
   text-align: center;
   font-size: 0.95rem;
@@ -41,12 +43,4 @@
     width: 24px;
     height: 24px;
     transition: fill 0.2s;
-}
-
-:root[data-theme='light'] {
-  --footer-text: #181818;
-}
-
-:root[data-theme='dark'] {
-  --footer-text: #f0f0f0;
 }

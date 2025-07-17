@@ -1,24 +1,27 @@
 :root {
-  font-family: 'Mada', system-ui, sans-serif;
+  font-family: 'Domine', system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  --text-color: #2b333a;
-  --background-color: #ffffff;
+  --text-color: #08222e;
+  --background-color: #fcfaf2;
   --heading-color: #181421;
   --border-color: #b8b8b8;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --navbar-shadow-color: rgba(0, 0, 0, 0.2);
-
+  --navbar-color: #fcfaf2b5;
+  --navbar-background: rgba(0, 0, 0, 0.175)
 }
 
 [data-theme="dark"] {
-  --text-color: #e6e6e6;
-  --background-color: #121212;
-  --heading-color: #ffffff;
+  --text-color: #fcfaf2;
+  --background-color: #161b1c;
+  --heading-color: #fcfaf2;
   --border-color: #444;
   --shadow-color: rgba(255, 255, 255, 0.1);
   --navbar-shadow-color: rgba(178, 178, 178, 0.2);
+  --navbar-color: #161b1ca6;
+  --navbar-background: rgba(255, 255, 255, 0.105);
 }
 
 * {
@@ -50,7 +53,7 @@ h1 {
   color: var(--heading-color);
   padding-left: 10px;
   padding-right: 10px;
-  margin-top: clamp(5rem, 30vh, 15rem);
+  padding-top: clamp(5rem, 20vh, 15rem);
   font-size: clamp(2.5rem, 3.5vw, 9rem);
 }
 
@@ -74,15 +77,13 @@ button::before {
   position: absolute;
   inset: 0;
   padding: 2px;
-  background: linear-gradient(
-    to right,
-    #fad419,
-    #c93855,
-    #0689bd
-  );
+  background: linear-gradient(to right,
+      #fad419,
+      #c93855,
+      #0689bd);
   border-radius: 50px;
-  -webkit-mask: 
-    linear-gradient(#fff 0 0) content-box, 
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
   mask-composite: exclude;

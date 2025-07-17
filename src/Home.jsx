@@ -217,7 +217,6 @@ function Home() {
 
   return (
     <>
-      <HomeNavbar />
       <div className="flex-container">
         <div className="welcome-container">
           <h1>Hi, {nameFirst}</h1>

@@ -21,6 +21,7 @@ import Welcome from './Welcome';
 import Info from './Info';
 import ManageMembers from './ManageMembers';
 import ManagePractices from './ManagePractices';
+import HomeNavbar from './HomeNavbar';
 
 const protectedRoutes = [
   { path: '/home', element: <Home /> },
@@ -33,7 +34,12 @@ function App() {
   return (
     <UserProvider>
       <Router>
-        <AppRoutes />
+        <div>
+          <HomeNavbar />
+          <div id="main-content">
+            <AppRoutes />
+          </div>
+        </div>
       </Router>
     </UserProvider>
   );

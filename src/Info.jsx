@@ -12,7 +12,6 @@ const navigate = useNavigate();
 
   return (
     <div>
-      <HomeNavbar />
       <div className="info-container">
         <h1>Info</h1>
         <div className="range-calls-container">

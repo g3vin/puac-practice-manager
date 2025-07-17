@@ -97,7 +97,6 @@ function ManagePractices() {
 
   return (
     <div>
-      <HomeNavbar />
       <div className={`container2 ${viewingDetails || viewingCarpool ? 'blurred' : ''}`}>
         <h1>Manage Club Practices</h1>
         <input
