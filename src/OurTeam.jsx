@@ -5,7 +5,7 @@ const teamMembers = [
   {
     name: "McKenzi Humbert",
     image: "kenzi.jpg",
-    bio: "",
+    bio: "Kenzi is majoring in Animal Science. She started shooting in fall of 2022, when she first came to Purdue. Outside of archery, she enjoys longboarding and painting minifigures. A fun fact about her is she has a three-legged cat.",
     position: "President",
     bowType: "Barebow"
   },
@@ -19,7 +19,7 @@ const teamMembers = [
   {
     name: "Gavin Bowden",
     image: "gavin.jpg",
-    bio: "",
+    bio: "Gavin is a Junior in Computer Science and Artifical Intelligence. He has been shooting for 8+ years, including competitively. He enjoys reading and writing outside of archery, and occasionally programming things.",
     position: "Treasurer",
     bowType: "Compound"
   },
@@ -83,8 +83,10 @@ const OurTeam = () => {
         <div className="team-grid">
           {teamMembers.map((member, index) => (
             <div className="team-tile" key={index}>
+              <div className="tags-position">
               <span className="tag position">{member.position}</span>
-              <img src={"./OurTeamPhotos/" + member.image} alt={member.name} className="team-photo" />
+              </div>
+              <img src={`/OurTeamPhotos/${member.image}`} alt={member.name} className="team-photo" />
               <div className="team-info">
                 <h2>{member.name}</h2>
                 <p className="team-bio">{member.bio}</p>

@@ -16,25 +16,22 @@ const HomeNavbar = () => {
     const isWideScreen = windowWidth > 1050;
     const [prevScrollPos, setPrevScrollPos] = useState(window.scrollY);
     const [visible, setVisible] = useState(true);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
     const toggleMenu = () => {
         setMenuOpen(!menuOpen);
     };
 
-    useEffect(() => {
-        const content = document.getElementById('main-content');
-        if (content) {
-            content.classList.toggle('blur', menuOpen);
-        }
+  useEffect(() => {
+    const content = document.getElementById('main-content');
+    if (content) content.classList.toggle('blur', menuOpen);
 
-        if (menuOpen) {
-            document.body.style.position = 'fixed';
-            document.body.style.width = '100%';
-        } else {
-            document.body.style.position = '';
-            document.body.style.width = '';
-        }
-    }, [menuOpen]);
+    document.body.style.overflow = menuOpen ? 'hidden' : '';
+    return () => {
+      if (content) content.classList.remove('blur');
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -98,12 +95,7 @@ const HomeNavbar = () => {
         navigate('/home');
     };
 
-    useEffect(() => {
-        const content = document.getElementById('main-content');
-        if (content) {
-            content.classList.toggle('blur', menuOpen);
-        }
-    }, [menuOpen]);
+
 
 
     useEffect(() => {
