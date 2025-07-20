@@ -1,66 +1,43 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import "./LandingPage.css";
+import './LandingPage.css';
 import Gallery from './Gallery';
 import Footer from './Footer';
 
 function LandingPage() {
   const navigate = useNavigate();
-  const pageRef = useRef(null);
-  const [unlocked, setUnlocked] = useState(false);
 
+  useEffect(() => {
+    const maxScroll = 750;
+    const arrow = document.querySelector('.arrow');
 
-useEffect(() => {
-  const maxScroll = 600; 
-  const arrow = document.querySelector('.arrow');
+    const onScroll = () => {
+      const scrollY = Math.min(window.scrollY, maxScroll);
+      const progress = scrollY / maxScroll;
+      const maxTranslate = window.innerWidth / 2;
+      if (arrow) {
+        arrow.style.transform = `translateX(${progress * maxTranslate - 200}px)`;
+      }
+    };
 
-  const onScroll = () => {
-    const scrollY = Math.min(window.scrollY, maxScroll);
-    // move arrow
-    const progress = scrollY / maxScroll;
-    const viewportWidth = window.innerWidth;
-    const maxTranslate = (viewportWidth - 200) / 2;
-    if (arrow) arrow.style.transform = `translateX(${progress * maxTranslate}px)`;
-
-    // if arrow centered, unlock
-    if (progress >= 1 && !unlocked) {
-      setUnlocked(true);
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('wheel', blockWheel, {passive: false});
-    }
-  };
-
-  // prevent wheel from moving past maxScroll
-  const blockWheel = (e) => {
-    if (window.scrollY >= maxScroll && !unlocked) {
-      e.preventDefault();
-      window.scrollTo({ top: maxScroll, behavior: 'instant' });
-    }
-  };
-
-  // attach listeners
-  window.addEventListener('scroll', onScroll);
-  window.addEventListener('wheel', blockWheel, { passive: false });
-
-  return () => {
-    window.removeEventListener('scroll', onScroll);
-    window.removeEventListener('wheel', blockWheel);
-  };
-}, [unlocked]);
-
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <div className={`landing-page ${unlocked ? 'unlocked' : ''}`} ref={pageRef}>
+    <div className="landing-page">
       <div className="hero-title">
         <div className="arrow-container">
           <div className="arrow">
-            <div className="arrow-head"></div>
-            <div className="arrow-shaft"></div>
             <div className="arrow-fletching"></div>
+            <div className="arrow-shaft"></div>
+            <div className="arrow-head"></div>
           </div>
         </div>
         <h1>Purdue Archery</h1>
       </div>
+
+      <div style={{height: 2000}}></div>
 
       <div className="content-section">
         <p>
@@ -80,7 +57,8 @@ useEffect(() => {
       <div className="content-section">
         <button onClick={() => navigate('/join')}>Join Now</button>
       </div>
-    <Footer />
+
+      <Footer />
     </div>
   );
 }

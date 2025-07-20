@@ -13,6 +13,7 @@ const Footer = () => {
           <a href="/constitution">Constitution</a>
           <a href="/merch">Merch</a>
           <a href="/sponsorship">Sponsorship</a>
+          <a href="/donate">Donate</a>
         </div>
 
         <div className="footer-socials">
