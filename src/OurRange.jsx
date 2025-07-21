@@ -1,11 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { Viewer } from '@photo-sphere-viewer/core';
 import '@photo-sphere-viewer/core/index.css';
+import './OurRange.css'
 
 const OurRange = () => {
   const viewerRef = useRef(null);
   const instanceRef = useRef(null);
-  
+
   useEffect(() => {
     if (viewerRef.current) {
       instanceRef.current = new Viewer({
